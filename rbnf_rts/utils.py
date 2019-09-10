@@ -85,17 +85,13 @@ class ImmutableMap(t.Mapping[K, V]):
         for k, v in self.tp:
             f(k, v)
 
-    def map(self,
-            f: t.Callable[[K, V], t.Tuple[T, G]]) -> 'ImmutableMap[T, G]':
+    def map(self, f: t.Callable[[K, V], t.Tuple[T, G]]) -> 'ImmutableMap[T, G]':
         new = ImmutableMap.__new__(ImmutableMap)
         new.tp = tuple(f(k, v) for k, v in self.tp)
         return new
 
-    def mapi(self, f: t.Callable[[int, K, V], t.Tuple[T, G]]
-             ) -> 'ImmutableMap[T, G]':
-        return ImmutableMap(
-            tuple(f(i, k, v) for i,
-                  (k, v) in enumerate(self.tp)))
+    def mapi(self, f: t.Callable[[int, K, V], t.Tuple[T, G]]) -> 'ImmutableMap[T, G]':
+        return ImmutableMap(tuple(f(i, k, v) for i, (k, v) in enumerate(self.tp)))
 
     def map_values(self, f: t.Callable[[V], T]) -> 'ImmutableMap[K, T]':
         return ImmutableMap(tuple((k, f(v)) for k, v in self.tp))
@@ -105,7 +101,6 @@ class ImmutableMap(t.Mapping[K, V]):
             f(v)
 
     def map_keys(self, f: t.Callable[[K], T]) -> 'ImmutableMap[T, V]':
-
         return ImmutableMap(tuple((f(k), v) for k, v in self.tp))
 
     def iter_keys(self, f: t.Callable[[K], t.NoReturn]) -> t.NoReturn:
@@ -159,12 +154,10 @@ class SizedList(t.Generic[T]):
         for a, b in self.tp:
             f(a, b)
 
-    def map2(self: 'SizedList[t.Tuple[K, V]]',
-             f: t.Callable[[K, V], G]) -> 'SizedList[G]':
+    def map2(self: 'SizedList[t.Tuple[K, V]]', f: t.Callable[[K, V], G]) -> 'SizedList[G]':
         return SizedList(tuple(f(k, v) for k, v in self.tp))
 
-    def map2i(self: 'SizedList[t.Tuple[K, V]]',
-              f: t.Callable[[int, K, V], G]) -> 'SizedList[G]':
+    def map2i(self: 'SizedList[t.Tuple[K, V]]', f: t.Callable[[int, K, V], G]) -> 'SizedList[G]':
         return SizedList(tuple(f(i, k, v) for i, (k, v) in enumerate(self.tp)))
 
     def to_im_map(self):
@@ -173,7 +166,6 @@ class SizedList(t.Generic[T]):
 
 def flatten(seq, f):
     for each in seq:
-
         test, res = f(each)
         if test:
             yield from flatten(res, f)
@@ -188,30 +180,3 @@ def nested_map(seq, f=lambda e: (type(e) in (list, tuple), e), m=type):
             yield tuple(nested_map(res, f, m))
         else:
             yield m(each)
-
-
-class InternedString:
-    STRINGS = {}
-    i: int
-    s: str
-
-    @classmethod
-    def make(cls, s: str):
-        pool = cls.STRINGS
-        i = pool.get(s, None)
-        if i is None:
-            i = pool[s] = len(s)
-        return InternedString(s, i)
-
-    def __init__(self, s: str, i=0):
-        self.s = s
-        self.i = i
-
-    def as_interned(self):
-        return self.make(self.s)
-
-    def __repr__(self):
-        return 'InternedStr({!r}, is_interned={})'.format(self.s, self.i == 0)
-
-    def __str__(self):
-        return 'InternedStr({!r}, is_interned={})'.format(self.s, self.i == 0)

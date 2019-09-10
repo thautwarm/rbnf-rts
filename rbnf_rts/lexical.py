@@ -1,4 +1,4 @@
-from .utils import InternedString
+from .utils import ImmutableMap
 from .token import Token
 from warnings import warn
 import re
@@ -19,19 +19,18 @@ class LexerDescriptor(abc.ABC):
 
 class RegexLexerDescriptor(LexerDescriptor):
 
-    def __init__(self, typeid: int, regex_pat: str):
+    def __init__(self, typeid: int, regex_pat: t.Pattern):
         self.typeid = typeid
-        self.contents = regex_pat
+        self.regex_pat = regex_pat
 
     def to_lexer(self):
-        match = re.compile(self.contents).match
+        match = self.regex_pat.match
         typeid = self.typeid
-        box = InternedString
 
         def lex(string, pos):
             m = match(string, pos)
             if m:
-                return box(m.group())
+                return m.group()
 
         return typeid, lex
 
@@ -46,18 +45,17 @@ class LiteralLexerDescriptor(LexerDescriptor):
     def to_lexer(self):
         pats = self.contents
         typeid = self.typeid
-        make_interned = InternedString
         if len(pats) is 1:
             pats = pats[0]
 
             def lex(string: str, pos):
                 if string.startswith(pats, pos):
-                    return make_interned(pats, typeid)
+                    return pats
         else:
             def lex(string: str, pos):
                 for pat in pats:
                     if string.startswith(pat, pos):
-                        return make_interned(pat, typeid)
+                        return pat
 
         return typeid, lex
 
@@ -111,16 +109,16 @@ def lexing(filename: str, text: str, lexer_table: list, reserved_map: dict):
             break
 
         for typeid, case in lexer_table:
-            interned_string: InternedString = case(text, pos)
+            origin_word = case(text, pos)
 
-            if interned_string is None:
+            if origin_word is None:
                 continue
-            pat = interned_string.s
+            pat = origin_word
             casted_typeid = reserved_map.get(pat)
             if casted_typeid is None:
-                yield Token(pos, lineno, colno, filename, typeid, interned_string)
+                yield Token(pos, lineno, colno, filename, typeid, origin_word)
             else:
-                yield Token(pos, lineno, colno, filename, casted_typeid, interned_string.as_interned())
+                yield Token(pos, lineno, colno, filename, casted_typeid, origin_word)
             n = len(pat)
             line_inc = pat.count(newline)
             if line_inc:
@@ -135,9 +133,14 @@ def lexing(filename: str, text: str, lexer_table: list, reserved_map: dict):
         else:
             warn(f"No handler for character `{text[pos].__repr__()}`.")
             ch = text[pos]
-            interned_string = InternedString(ch)
-            yield Token(pos, lineno, colno, filename, 0, interned_string)
+            origin_word = ch
+            yield Token(pos, lineno, colno, filename, 0, origin_word)
             if ch == "\n":
                 lineno += 1
                 colno = 0
             pos += 1
+
+
+def lexer(*args: t.Union[t.Pattern, str], ignores=(), reserved=ImmutableMap(())):
+    dict(reserved.to_list())
+    pass
