@@ -173,6 +173,24 @@ def flatten(seq, f):
             yield each
 
 
+class Builder(t.Generic[T, G]):
+    def __init__(self, call, getitem):
+        self.call = call
+        self.getitem = getitem
+
+    def __getitem__(self, item: T) -> G:
+        return self.getitem(item)
+
+    def __call__(self, **kwargs: T) -> G:
+        return self.call(**kwargs)
+
+
+class Numbering(dict):
+    def __missing__(self, key):
+        v = self[key] = len(self)
+        return v
+
+
 def nested_map(seq, f=lambda e: (type(e) in (list, tuple), e), m=type):
     for each in seq:
         test, res = f(each)
