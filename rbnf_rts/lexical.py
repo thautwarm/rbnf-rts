@@ -134,7 +134,7 @@ def lexing(filename: str, text: str, lexer_table: list, reserved_map: dict):
             warn(f"No handler for character `{text[pos].__repr__()}`.")
             ch = text[pos]
             origin_word = ch
-            yield Token(pos, lineno, colno, filename, 0, origin_word)
+            yield Token(pos, lineno, colno, filename, -1, origin_word)
             if ch == "\n":
                 lineno += 1
                 colno = 0
@@ -175,7 +175,7 @@ def lexing_no_reverse(filename: str, text: str, lexer_table: list):
             warn(f"No handler for character `{text[pos].__repr__()}`.")
             ch = text[pos]
             origin_word = ch
-            yield Token(pos, lineno, colno, filename, 0, origin_word)
+            yield Token(pos, lineno, colno, filename, -1, origin_word)
             if ch == "\n":
                 lineno += 1
                 colno = 0
@@ -211,6 +211,8 @@ l: Builder[str, t.Tuple[str, str]] = Builder(call=str_call_build, getitem=str_ge
 def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]], ignores=(),
           reserved_map: ImmutableMap[str, str] = ImmutableMap(())):
     numbering = Numbering()
+    BOF = numbering["BOF"]
+    EOF = numbering["EOF"]
     sublexers = []
 
     for name, each in subrules:
@@ -232,15 +234,28 @@ def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]], ignores=(),
     if reserved_map:
         if ignores:
             def run_lexer(filename: str, text: str):
-                return (token for token in lexing(filename, text, table, reserved_map) if token.idint not in ignores)
+                yield Token(0, 0, 0, filename, BOF, "")
+                yield from (token for token in lexing(filename, text, table, reserved_map) if
+                            token.idint not in ignores)
+                yield Token(0, 0, 0, filename, EOF, "")
+
         else:
             def run_lexer(filename: str, text: str):
-                return lexing(filename, text, table, reserved_map)
+                yield Token(0, 0, 0, filename, BOF, "")
+                yield from lexing(filename, text, table, reserved_map)
+                yield Token(0, 0, 0, filename, EOF, "")
+
     else:
         if ignores:
             def run_lexer(filename: str, text: str):
-                return (token for token in lexing_no_reverse(filename, text, table) if token.idint not in ignores)
+                yield Token(0, 0, 0, filename, BOF, "")
+                yield from (token for token in lexing_no_reverse(filename, text, table) if token.idint not in ignores)
+                yield Token(0, 0, 0, filename, EOF, "")
+
         else:
             def run_lexer(filename: str, text: str):
-                return lexing_no_reverse(filename, text, table)
+                yield Token(0, 0, 0, filename, BOF, "")
+                yield from lexing_no_reverse(filename, text, table)
+                yield Token(0, 0, 0, filename, EOF, "")
+
     return numbering, run_lexer

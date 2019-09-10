@@ -23,29 +23,37 @@ Check test directory:
 import operator
 from rbnf_rts.rbnf_prims import link, Tokens, State
 from rbnf_rts.lexical import *
+from rbnf_rts.rbnf_api import codegen
 from rbnf_rts.token import Token
+from pathlib import Path
+import tempfile
 import ast
-from subprocess import check_output, CalledProcessError
+from subprocess import CalledProcessError
 
-filename = "./grammar.rbnf"
-with open(filename, "w") as f:
-    f.write("""
+grammar_file = "./grammar.rbnf"
+py_file = "./py.py"
+
+with tempfile.TemporaryDirectory() as tdir:
+    tdir = Path(tdir)
+    with (tdir / grammar_file).open("w") as f:
+        f.write("""
 Mul  ::= !lhs=<Mul> "*" !rhs=<Atom> -> mul(lhs, rhs);
 Mul  ::= !a=<Atom>                  -> a;
 Atom ::= "(" !a=<Mul> ")"           -> a;
 Atom ::= !a=number                  -> unwrap(a);
-""")
 
-try:
-    check_output(["rbnf-pgen", "-in", filename, "-k", "1", "-out", "./case1_inline.py", "-be", "python", "--trace"])
-    check_output(["rbnf-pgen", "-in", filename, "-k", "1", "-out", "./case1_noinline.py", "-be", "python", "--trace",
-                  "--noinline"])
-    code: bytes = check_output(["rbnf-pgen", "-in", filename, "-k", "1", "-out", "stdout", "-be", "python", "--trace"])
-except CalledProcessError as e:
-    print(e.stderr)
-    exit(0)
+TOP  ::= BOF !a=<Mul> EOF           -> a;
+    """)
+    try:
+        codegen((tdir/grammar_file), (tdir/py_file), k=1, inline=False, traceback=True)
+    except CalledProcessError as e:
+        print(e.stderr)
+        exit(0)
+        raise Exception
 
-code = code.decode()
+    with (tdir / py_file).open('r') as f:
+        code = f.read()
+
 gencode = ast.parse(code)
 
 lexicals, run_lexer = lexer(
@@ -61,11 +69,11 @@ def unwrap(x: Token):
     return int(x.value)
 
 
-scope = link(lexicals, gencode, scope=dict(unwrap=unwrap, mul=operator.mul), filename=filename)
-tokens = list(run_lexer(filename, "1 * 2 * (3 * 4)"))
-got = scope['parse_Mul'](State(), Tokens(tokens))
-print(got)
+scope = link(lexicals, gencode, scope=dict(unwrap=unwrap, mul=operator.mul), filename=py_file)
 
+tokens = list(run_lexer("<current file>", "1 * 2 * (3 * 4)"))
+got = scope['parse_TOP'](State(), Tokens(tokens))
+print(got)
 ```
 
 Got `(True, 24)`, where `True` indicates the parsing succeeded.
