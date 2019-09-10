@@ -2,7 +2,7 @@
 Runtime support for generated parsers of RBNF.hs
 
 
-# Native Dependency
+# Native Dependencies
 
 - The Haskell Stack Toolchain
 
