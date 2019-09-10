@@ -1,0 +1,5 @@
+
+Mul  ::= !lhs=<Mul> "*" !rhs=<Atom> -> mul(lhs, rhs);
+Mul  ::= !a=<Atom>                  -> a;
+Atom ::= "(" !a=<Mul> ")"           -> a;
+Atom ::= !a=number                  -> unwrap(a);

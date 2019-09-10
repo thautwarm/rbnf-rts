@@ -22,7 +22,7 @@ setup(
     entry_points={"console_scripts": []},
     # above option specifies commands to be installed,
     # e.g: entry_points={"console_scripts": ["yapypy=yapypy.cmd.compiler"]}
-    install_requires=["devpackage"],
+    install_requires=["devpackage", 'PyYAML'],
     platforms="any",
     classifiers=[
         "Programming Language :: Python :: 3.6",
