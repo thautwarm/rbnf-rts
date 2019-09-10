@@ -69,3 +69,81 @@ scope = link(
 tokens = list(run_lexer("<current file>", "1 * 2 + 3 * 4"))
 got = scope['parse_TOP'](State(), Tokens(tokens))
 print(got)
+
+st = State()
+tks = Tokens(tokens)
+from timeit import timeit
+
+import rbnf.zero as ze
+
+f = ze.compile("""
+import std.common.[Number Space]
+[python] import functools.[reduce]
+[python] import operator.[add sub mul truediv floordiv mod]
+ignore [Space]
+
+Numeric ::= ['-' as neg] Number as integral ['.' Number as floating]
+            rewrite
+                r = float(integral.value + '.' + floating.value) if floating else int(integral.value)
+                -r if neg else r
+
+Mul ::= Numeric as head (('*' | '/') as op Numeric)* as tail
+        rewrite
+            if tail:
+                op = None
+                for each in tail:
+                    if op is None:
+                        op = {
+                            '*' : mul, '/' : floordiv
+                        }[each.value]
+                    else:
+                        head = op(head, each)
+                        op = None
+            head
+
+Atom ::= Numeric as value | '(' Add as value ')'
+         rewrite value
+
+
+Add ::= Mul as head (('+' | '-') as op Mul)* as tail
+        rewrite
+            if tail:
+                op = None
+                for each in tail:
+                    if op is None:
+                        op = {'+': add, '-': sub}[each.value]
+                    else:
+                        head = op(head, each)
+                        op = None
+            head
+""")
+
+source = """1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13"""
+
+
+def rbnf_hs(text, t=10000):
+    print(
+        timeit(
+            f"""parse_TOP(None, Tokens(list(run_lexer("current_file", {repr(text)}))))""",
+            globals=dict(
+                parse_TOP=scope['parse_TOP'],
+                Tokens=Tokens,
+                run_lexer=run_lexer,
+            ),
+            number=t))
+
+
+def rbnf_py(text, t=10000):
+    print(timeit(f"""match(f{text})""", globals=dict(match=f.match), number=t))
+
+
+print(f.match(source).result)
+
+tokens = list(run_lexer("<current file>", source))
+got = scope['parse_TOP'](State(), Tokens(tokens))
+print(got)
+
+t = 20000
+rbnf_hs(source, t)
+rbnf_hs(source, t)
+
