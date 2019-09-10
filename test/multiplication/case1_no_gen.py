@@ -13,13 +13,16 @@ with (tdir / py_file).open('r') as f:
 
 gencode = ast.parse(code)
 
-lexicals, run_lexer = lexer(r(number='\d+'), l["*"], l(space=" "), l['('], l[')'], ignores=['space'])
+lexicals, run_lexer = lexer(
+    r(number='\d+'), l["*"], l(space=" "), l['('], l[')'], ignores=['space'])
 
 
 def unwrap(x: Token):
     return int(x.value)
 
-scope = link(lexicals, gencode, scope=dict(unwrap=unwrap, mul=operator.mul), filename=py_file)
+
+scope = link(
+    lexicals, gencode, scope=dict(unwrap=unwrap, mul=operator.mul), filename=py_file)
 
 tokens = list(run_lexer("<current file>", "1 * 2 * 3"))
 got = scope['parse_TOP'](State(), Tokens(tokens))

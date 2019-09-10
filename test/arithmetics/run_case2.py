@@ -33,7 +33,10 @@ with (tdir / py_file).open('r') as f:
     code = f.read()
 
 ops = {
-    '+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.floordiv,
+    '+': operator.add,
+    '-': operator.sub,
+    '*': operator.mul,
+    '/': operator.floordiv,
 }
 
 
@@ -43,15 +46,25 @@ def arith_call(op: Token, lhs, rhs):
 
 gencode = ast.parse(code)
 
-lexicals, run_lexer = lexer(r(number='\d+'), l["+"], l["-"], l["*"], l["/"], l(space=" "), l(space="\n"), l['('],
-                            l[')'], ignores=['space'])
+lexicals, run_lexer = lexer(
+    r(number='\d+'),
+    l["+"],
+    l["-"],
+    l["*"],
+    l["/"],
+    l(space=" "),
+    l(space="\n"),
+    l['('],
+    l[')'],
+    ignores=['space'])
 
 
 def unwrap(x: Token):
     return int(x.value)
 
 
-scope = link(lexicals, gencode, scope=dict(unwrap=unwrap, ArithCall=arith_call), filename=py_file)
+scope = link(
+    lexicals, gencode, scope=dict(unwrap=unwrap, ArithCall=arith_call), filename=py_file)
 
 tokens = list(run_lexer("<current file>", "1 * 2 + 3 * 4"))
 got = scope['parse_TOP'](State(), Tokens(tokens))
