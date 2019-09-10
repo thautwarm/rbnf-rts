@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-from datetime import datetime
 from pathlib import Path
 
 with Path('README.md').open() as readme:
@@ -22,7 +21,7 @@ setup(
     entry_points={"console_scripts": []},
     # above option specifies commands to be installed,
     # e.g: entry_points={"console_scripts": ["yapypy=yapypy.cmd.compiler"]}
-    install_requires=["devpackage", 'PyYAML'],
+    install_requires=['PyYAML', 'prettyprinter'],
     platforms="any",
     classifiers=[
         "Programming Language :: Python :: 3.6",

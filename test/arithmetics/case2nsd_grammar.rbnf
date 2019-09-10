@@ -1,0 +1,9 @@
+ 
+Mul  ::= <Mul> ("*" | "/") <Atom>;
+Mul  ::= <Atom>                  ;
+Add  ::= <Add> ("+" | "-") <Mul> ;
+Add  ::= <Mul>                   ;
+Atom ::= "(" <Add> ")"           ;                        
+Atom ::= number                  ;                               
+
+TOP  ::= BOF <Add> EOF           ;       

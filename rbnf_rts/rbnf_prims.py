@@ -1,6 +1,6 @@
-import operator
-import yaml
+from prettyprinter import pformat
 from typing import Generic, TypeVar, Dict, Optional
+import operator
 import ast
 
 T = TypeVar('T')
@@ -13,86 +13,91 @@ class Tokens:
         self.array = array
         self.offset = 0
 
+    def __repr__(self):
+        return pformat(self)
+
 
 class State:
     def __init__(self):
         pass
 
 
-def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], filename: str = "unknown"):
+class AST(Generic[T]):
+    __slots__ = ['tag', "contents"]
+
+    def __init__(self, tag: str, contents: T):
+        self.tag = tag
+        self.contents = contents
+
+    def __repr__(self):
+        return pformat(self)
+
+
+class Nil:
     nil = None
+    __slots__ = []
 
-    class AST(Generic[T]):
-        __slots__ = ['tag', "contents"]
+    def __init__(self):
+        if Nil.nil is None:
+            Nil.nil = self
+            return
+        raise ValueError("Nil cannot get instantiated twice.")
 
-        def __init__(self, tag: str, contents: T):
-            self.tag = tag
-            self.contents = contents
+    def __len__(self):
+        return 0
 
-        def __repr__(self):
-            return yaml.dump(self)
+    def __getitem__(self, n):
+        raise IndexError('Out of bounds')
 
-    class Nil:
-        __slots__ = []
+    @property
+    def head(self):
+        raise IndexError('Out of bounds')
 
-        def __init__(self):
-            nonlocal nil
-            if nil is None:
-                nil = self
-                return
-            raise ValueError("Nil cannot get instantiated twice.")
+    @property
+    def tail(self):
+        raise IndexError('Out of bounds')
 
-        def __len__(self):
-            return 0
+    def __repr__(self):
+        return "[]"
 
-        def __getitem__(self, n):
-            raise IndexError('Out of bounds')
 
-        @property
-        def head(self):
-            raise IndexError('Out of bounds')
+nil = Nil()
 
-        @property
-        def tail(self):
-            raise IndexError('Out of bounds')
 
-        def __repr__(self):
-            return "[]"
+class Cons:
+    __slots__ = ['head', 'tail']
 
-    Nil()
+    def __init__(self, _head, _tail):
+        self.head = _head
+        self.tail = _tail
 
-    class Cons:
-        __slots__ = ['head', 'tail']
+    def __len__(self):
+        _nil = nil
+        l = 0
+        while self is not _nil:
+            l += 1
+            # noinspection PyMethodFirstArgAssignment
+            self = self.tail
+        return l
 
-        def __init__(self, _head, _tail):
-            self.head = _head
-            self.tail = _tail
+    def __iter__(self):
+        _nil = nil
+        while self is not _nil:
+            yield self.head
+            # noinspection PyMethodFirstArgAssignment
+            self = self.tail
 
-        def __len__(self):
-            _nil = nil
-            l = 0
-            while self is not _nil:
-                l += 1
-                # noinspection PyMethodFirstArgAssignment
-                self = self.tail
-            return l
+    def __getitem__(self, n):
+        while n != 0:
+            # noinspection PyMethodFirstArgAssignment
+            self = self.tail
+        return self.head
 
-        def __iter__(self):
-            _nil = nil
-            while self is not _nil:
-                yield self.head
-                # noinspection PyMethodFirstArgAssignment
-                self = self.tail
+    def __repr__(self):
+        return repr(list(self))
 
-        def __getitem__(self, n):
-            while n != 0:
-                # noinspection PyMethodFirstArgAssignment
-                self = self.tail
-            return self.head
 
-        def __repr__(self):
-            return repr(list(self))
-
+def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], filename: str = "unknown"):
     prim__eq = operator.eq  # should specialize
     prim__not__eq = operator.ne  # should specialize
     prim__null = None  # should specialize
