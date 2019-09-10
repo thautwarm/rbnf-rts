@@ -1,0 +1,9 @@
+ 
+Mul  ::= !lhs=<Mul> !op=("*" | "/") !rhs=<Atom>  -> ArithCall(op, lhs, rhs);
+Mul  ::= !a=<Atom>                               -> a;
+Add  ::= !lhs=<Add> !op=("+" | "-") !rhs=<Mul>   -> ArithCall(op, lhs, rhs);
+Add  ::= !a=<Mul>                                -> a;
+Atom ::= "(" !a=<Add> ")"                        -> a;
+Atom ::= !a=number                               -> unwrap(a);
+
+TOP  ::= BOF !a=<Add> EOF                        -> a;

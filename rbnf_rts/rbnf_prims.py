@@ -112,8 +112,9 @@ def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], f
             tk = tokens.array[tokens.offset]
         except IndexError:
             return None
-        if tk.idint is idint:
-            tokens.offset += 1
+        if tk.idint is not idint:
+            return None
+        tokens.offset += 1
         return tk
 
     # should specialize
