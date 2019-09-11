@@ -7,7 +7,7 @@ with Path('README.md').open() as readme:
 
 setup(
     name='rbnf-rts',
-    version="0.1",
+    version="0.2",
     keywords="", # keywords of your project that separated by comma ","
     description="", # a conceise introduction of your project
     long_description=readme,
@@ -21,7 +21,7 @@ setup(
     entry_points={"console_scripts": []},
     # above option specifies commands to be installed,
     # e.g: entry_points={"console_scripts": ["yapypy=yapypy.cmd.compiler"]}
-    install_requires=['PyYAML', 'prettyprinter'],
+    install_requires=['prettyprinter'],
     platforms="any",
     classifiers=[
         "Programming Language :: Python :: 3.6",

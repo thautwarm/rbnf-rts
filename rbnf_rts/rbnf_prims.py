@@ -18,6 +18,7 @@ class Tokens:
 
 
 class State:
+
     def __init__(self):
         pass
 
@@ -97,7 +98,10 @@ class Cons:
         return repr(list(self))
 
 
-def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], filename: str = "unknown"):
+def link(lexicals: Dict[str, int],
+         gencode: ast.Module,
+         scope: Optional[Dict],
+         filename: str = "unknown"):
     nil = _nil
     prim__eq = operator.eq  # should specialize
     prim__not__eq = operator.ne  # should specialize
@@ -142,19 +146,24 @@ def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], f
     prim__nil = nil
 
     # should eliminate
-    def prim__to__result(x): return x
+    def prim__to__result(x):
+        return x
 
     # should eliminate
-    def prim__to__any(x): return x
+    def prim__to__any(x):
+        return x
 
     # should inline
-    def prim__mk__ast(s: str, x: T) -> AST[T]: return AST(s, x)
+    def prim__mk__ast(s: str, x: T) -> AST[T]:
+        return AST(s, x)
 
     # should inline
-    def prim__is__null(x): return x is None
+    def prim__is__null(x):
+        return x is None
 
     # should inline
-    def prim__is__not__null(x): return x is not None
+    def prim__is__not__null(x):
+        return x is not None
 
     scope = scope or {}
     scope.update(locals())

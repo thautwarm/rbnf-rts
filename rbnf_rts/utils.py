@@ -154,10 +154,12 @@ class SizedList(t.Generic[T]):
         for a, b in self.tp:
             f(a, b)
 
-    def map2(self: 'SizedList[t.Tuple[K, V]]', f: t.Callable[[K, V], G]) -> 'SizedList[G]':
+    def map2(self: 'SizedList[t.Tuple[K, V]]',
+             f: t.Callable[[K, V], G]) -> 'SizedList[G]':
         return SizedList(tuple(f(k, v) for k, v in self.tp))
 
-    def map2i(self: 'SizedList[t.Tuple[K, V]]', f: t.Callable[[int, K, V], G]) -> 'SizedList[G]':
+    def map2i(self: 'SizedList[t.Tuple[K, V]]',
+              f: t.Callable[[int, K, V], G]) -> 'SizedList[G]':
         return SizedList(tuple(f(i, k, v) for i, (k, v) in enumerate(self.tp)))
 
     def to_im_map(self):
@@ -174,6 +176,7 @@ def flatten(seq, f):
 
 
 class Builder(t.Generic[T, G]):
+
     def __init__(self, call, getitem):
         self.call = call
         self.getitem = getitem
@@ -186,6 +189,7 @@ class Builder(t.Generic[T, G]):
 
 
 class Numbering(dict):
+
     def __missing__(self, key):
         v = self[key] = len(self)
         return v

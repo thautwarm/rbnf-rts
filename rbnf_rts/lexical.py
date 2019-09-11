@@ -52,6 +52,7 @@ class LiteralLexerDescriptor(LexerDescriptor):
                 if string.startswith(pats, pos):
                     return pats
         else:
+
             def lex(string: str, pos):
                 for pat in pats:
                     if string.startswith(pat, pos):
@@ -61,6 +62,7 @@ class LiteralLexerDescriptor(LexerDescriptor):
 
 
 def lexer_reduce(lexer_descriptors: t.List[LexerDescriptor]) -> t.List[LexerDescriptor]:
+
     def _chunk(stream: t.Iterable[LexerDescriptor]):
         grouped = []
         _append = grouped.append
@@ -204,11 +206,14 @@ def str_getitem_build(arg):
     return "quote " + arg, arg
 
 
-r: Builder[str, t.Tuple[str, re.Pattern]] = Builder(call=regex_call_build, getitem=regex_getitem_build)
-l: Builder[str, t.Tuple[str, str]] = Builder(call=str_call_build, getitem=str_getitem_build)
+r: Builder[str, t.Tuple[str, re.Pattern]] = Builder(
+    call=regex_call_build, getitem=regex_getitem_build)
+l: Builder[str, t.Tuple[str, str]] = Builder(
+    call=str_call_build, getitem=str_getitem_build)
 
 
-def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]], ignores=(),
+def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]],
+          ignores=(),
           reserved_map: ImmutableMap[str, str] = ImmutableMap(())):
     numbering = Numbering()
     BOF = numbering["BOF"]
@@ -233,13 +238,15 @@ def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]], ignores=(),
 
     if reserved_map:
         if ignores:
+
             def run_lexer(filename: str, text: str):
                 yield Token(0, 0, 0, filename, BOF, "")
-                yield from (token for token in lexing(filename, text, table, reserved_map) if
-                            token.idint not in ignores)
+                yield from (token for token in lexing(filename, text, table, reserved_map)
+                            if token.idint not in ignores)
                 yield Token(0, 0, 0, filename, EOF, "")
 
         else:
+
             def run_lexer(filename: str, text: str):
                 yield Token(0, 0, 0, filename, BOF, "")
                 yield from lexing(filename, text, table, reserved_map)
@@ -247,12 +254,15 @@ def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]], ignores=(),
 
     else:
         if ignores:
+
             def run_lexer(filename: str, text: str):
                 yield Token(0, 0, 0, filename, BOF, "")
-                yield from (token for token in lexing_no_reverse(filename, text, table) if token.idint not in ignores)
+                yield from (token for token in lexing_no_reverse(filename, text, table)
+                            if token.idint not in ignores)
                 yield Token(0, 0, 0, filename, EOF, "")
 
         else:
+
             def run_lexer(filename: str, text: str):
                 yield Token(0, 0, 0, filename, BOF, "")
                 yield from lexing_no_reverse(filename, text, table)

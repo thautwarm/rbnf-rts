@@ -21,14 +21,17 @@ class Token:
         if not isinstance(other, Token):
             return False
 
-        return (
-                self.offset == other.offset and self.filename == other.filename and self.idint == other.idint and self.value == other.value and self.colno == other.colno and self.lineno == other.lineno)
+        return (self.offset == other.offset and self.filename == other.filename
+                and self.idint == other.idint and self.value == other.value
+                and self.colno == other.colno and self.lineno == other.lineno)
 
     def __hash__(self):
-        return (self.offset ^ self.lineno ^ self.colno + 2333 + self.idint) ^ hash(self.filename) ^ hash(self.value)
+        return (self.offset ^ self.lineno ^ self.colno + 2333 + self.idint) ^ hash(
+            self.filename) ^ hash(self.value)
 
     def __repr__(self):
         if self._repr is None:
             self._repr = "Token(offset=%d, lineno=%d, colno=%d, filename=%s, type=%d, value=%s)" % (
-                self.offset, self.lineno, self.colno, self.filename, self.idint, repr(self.value))
+                self.offset, self.lineno, self.colno, self.filename, self.idint,
+                repr(self.value))
         return self._repr
