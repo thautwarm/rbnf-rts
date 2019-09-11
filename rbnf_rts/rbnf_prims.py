@@ -61,7 +61,7 @@ class Nil:
         return "[]"
 
 
-nil = Nil()
+_nil = Nil()
 
 
 class Cons:
@@ -72,17 +72,17 @@ class Cons:
         self.tail = _tail
 
     def __len__(self):
-        _nil = nil
+        nil = _nil
         l = 0
-        while self is not _nil:
+        while self is not nil:
             l += 1
             # noinspection PyMethodFirstArgAssignment
             self = self.tail
         return l
 
     def __iter__(self):
-        _nil = nil
-        while self is not _nil:
+        nil = _nil
+        while self is not nil:
             yield self.head
             # noinspection PyMethodFirstArgAssignment
             self = self.tail
@@ -98,6 +98,7 @@ class Cons:
 
 
 def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], filename: str = "unknown"):
+    nil = _nil
     prim__eq = operator.eq  # should specialize
     prim__not__eq = operator.ne  # should specialize
     prim__null = None  # should specialize
@@ -105,6 +106,13 @@ def link(lexicals: Dict[str, int], gencode: ast.Module, scope: Optional[Dict], f
     # should inline
     def prim__peekable(tokens, i):
         return len(tokens.array) > tokens.offset + i
+
+    # should inline
+    def prim__mv__forward(tokens):
+        i = tokens.offset
+        t = tokens.array[i]
+        tokens.offset = i + 1
+        return t
 
     # should inline
     def prim__peek(tokens, i):
