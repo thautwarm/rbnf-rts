@@ -1,7 +1,7 @@
 
-Mul  ::= !lhs=<Mul> ("*" | "mult") !rhs=<Atom> -> mul(lhs, rhs);
-Mul  ::= !a=<Atom>                  -> a;
-Atom ::= "(" !a=<Mul> ")"           -> a;
-Atom ::= !a=number                  -> unwrap(a);
+Mul  ::= !lhs=Mul ("*" | "mult") !rhs=Atom -> mul(lhs, rhs);
+Mul  ::= !a=Atom                  -> a;
+Atom ::= "(" !a=Mul ")"           -> a;
+Atom ::= !a=<number>                  -> unwrap(a);
 
-TOP  ::= BOF !a=<Mul> EOF           -> a;
+START ::= <BOF> !a=Mul <EOF>           -> a;

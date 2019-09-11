@@ -12,14 +12,14 @@ tdir = "./"
 tdir = Path(tdir)
 with (tdir / grammar_file).open("w") as f:
     f.write(""" 
-Mul  ::= <Mul> ("*" | "/") <Atom>;
-Mul  ::= <Atom>                  ;
-Add  ::= <Add> ("+" | "-") <Mul> ;
-Add  ::= <Mul>                   ;
-Atom ::= "(" <Add> ")"           ;                        
-Atom ::= number                  ;                               
+Mul  ::= Mul ("*" | "/") Atom;
+Mul  ::= Atom                  ;
+Add  ::= Add ("+" | "-") Mul ;
+Add  ::= Mul                   ;
+Atom ::= "(" Add ")"           ;                        
+Atom ::= <number>                  ;                               
 
-TOP  ::= BOF <Add> EOF           ;       
+START  ::= <BOF> Add <EOF>           ;       
 """)
 try:
     codegen((tdir / grammar_file), (tdir / py_file), k=1, inline=False, traceback=True)
@@ -53,5 +53,5 @@ def unwrap(x: Token):
 scope = link(lexicals, gencode, scope=dict(), filename=py_file)
 
 tokens = list(run_lexer("<current file>", "1 * 2 + 3 * 4"))
-_, ast = scope['parse_TOP'](State(), Tokens(tokens))
+_, ast = scope['parse_START'](State(), Tokens(tokens))
 print(ast)

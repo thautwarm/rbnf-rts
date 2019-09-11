@@ -13,15 +13,18 @@ tdir = "./"
 tdir = Path(tdir)
 with (tdir / grammar_file).open("w") as f:
     f.write("""
-Mul  ::= !lhs=<Mul> ("*" | "mult") !rhs=<Atom> -> mul(lhs, rhs);
-Mul  ::= !a=<Atom>                  -> a;
-Atom ::= "(" !a=<Mul> ")"           -> a;
-Atom ::= !a=number                  -> unwrap(a);
+Mul  ::= !lhs=Mul ("*" | "mult") !rhs=Atom -> mul(lhs, rhs);
+Mul  ::= !a=Atom                  -> a;
+Atom ::= "(" !a=Mul ")"           -> a;
+Atom ::= !a=<number>                  -> unwrap(a);
 
-TOP  ::= BOF !a=<Mul> EOF           -> a;
+START ::= <BOF> !a=Mul <EOF>           -> a;
 """)
 try:
-    codegen((tdir / grammar_file), (tdir / py_file), k=1, inline=False, traceback=True)
+    codegen((tdir / grammar_file), (tdir / py_file),
+            k=1,
+            inline=False,
+            traceback=True)
 except CalledProcessError as e:
     print(e.stderr)
     exit(0)
@@ -33,7 +36,13 @@ with (tdir / py_file).open('r') as f:
 gencode = ast.parse(code)
 
 lexicals, run_lexer = lexer(
-    r(number='\d+'), l["mult"], l["*"], l(space=" "), l['('], l[')'], ignores=['space'])
+    r(number='\d+'),
+    l["mult"],
+    l["*"],
+    l(space=" "),
+    l['('],
+    l[')'],
+    ignores=['space'])
 
 
 def unwrap(x: Token):
@@ -41,8 +50,15 @@ def unwrap(x: Token):
 
 
 scope = link(
-    lexicals, gencode, scope=dict(unwrap=unwrap, mul=operator.mul), filename=py_file)
+    lexicals,
+    gencode,
+    scope=dict(unwrap=unwrap, mul=operator.mul),
+    filename=py_file)
+
+tokens = list(run_lexer("<current file>", "1 * 2 mult 3"))
+got = scope['parse_START'](State(), Tokens(tokens))
+print(got)
 
 tokens = list(run_lexer("<current file>", "1 * 2 mult 3 mult"))
-got = scope['parse_TOP'](State(), Tokens(tokens))
+got = scope['parse_START'](State(), Tokens(tokens))
 print(got)

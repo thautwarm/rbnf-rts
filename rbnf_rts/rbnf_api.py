@@ -22,7 +22,7 @@ def codegen(filename: str, out: str, inline=True, k: int = 1, traceback: bool = 
     check_call(cmd)
 
 
-def dump_graph(filename: str, out: str, inline: bool = False):
+def dump_graph(filename: str, out: str, *, inline: bool = False):
     """
     :param filename: grammar filename
     :param inline: flag to indicate if use grammar inline optimisation.
@@ -30,6 +30,7 @@ def dump_graph(filename: str, out: str, inline: bool = False):
     """
     cmd = ["rbnf-pgen", "-in", filename, "-jsongraph", out, "-be", "python"]
     if not inline:
+        print('noinline')
         cmd.append("--noinline")
     check_call(cmd)
 

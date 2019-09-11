@@ -13,14 +13,14 @@ tdir = "./"
 tdir = Path(tdir)
 with (tdir / grammar_file).open("w") as f:
     f.write(""" 
-Mul  ::= !lhs=<Mul> !op=("*" | "/") !rhs=<Atom>  -> ArithCall(op, lhs, rhs);
-Mul  ::= !a=<Atom>                               -> a;
-Add  ::= !lhs=<Add> !op=("+" | "-") !rhs=<Mul>   -> ArithCall(op, lhs, rhs);
-Add  ::= !a=<Mul>                                -> a;
-Atom ::= "(" !a=<Add> ")"                        -> a;
-Atom ::= !a=number                               -> unwrap(a);
+Mul  ::= !lhs=Mul !op=("*" | "/") !rhs=Atom        -> ArithCall(op, lhs, rhs);
+Mul  ::= !a=Atom                                   -> a;
+Add  ::= !lhs=Add !op=("+" | "-") !rhs=Mul         -> ArithCall(op, lhs, rhs);
+Add  ::= !a=Mul                                    -> a;
+Atom ::= "(" !a=Add ")"                            -> a;
+Atom ::= !a=<number>                               -> unwrap(a);
 
-TOP  ::= BOF !a=<Add> EOF                        -> a;
+START  ::= <BOF> !a=Add <EOF>                        -> a;
 """)
 try:
     codegen((tdir / grammar_file), (tdir / py_file), k=1, inline=False, traceback=True)
@@ -67,7 +67,7 @@ scope = link(
     lexicals, gencode, scope=dict(unwrap=unwrap, ArithCall=arith_call), filename=py_file)
 
 tokens = list(run_lexer("<current file>", "1 * 2 + 3 * 4"))
-got = scope['parse_TOP'](State(), Tokens(tokens))
+got = scope['parse_START'](State(), Tokens(tokens))
 print(got)
 
 st = State()
@@ -124,9 +124,9 @@ source = """1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13"""
 def rbnf_hs(text, t=10000):
     print(
         timeit(
-            f"""parse_TOP(None, Tokens(list(run_lexer("current_file", {repr(text)}))))""",
+            f"""parse_START(None, Tokens(list(run_lexer("current_file", {repr(text)}))))""",
             globals=dict(
-                parse_TOP=scope['parse_TOP'],
+                parse_START=scope['parse_START'],
                 Tokens=Tokens,
                 run_lexer=run_lexer,
             ),
@@ -140,7 +140,7 @@ def rbnf_py(text, t=10000):
 print(f.match(source).result)
 
 tokens = list(run_lexer("<current file>", source))
-got = scope['parse_TOP'](State(), Tokens(tokens))
+got = scope['parse_START'](State(), Tokens(tokens))
 print(got)
 
 t = 20000
