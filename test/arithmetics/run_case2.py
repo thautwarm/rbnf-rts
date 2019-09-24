@@ -134,7 +134,7 @@ def rbnf_hs(text, t=10000):
 
 
 def rbnf_py(text, t=10000):
-    print(timeit(f"""match(f{text})""", globals=dict(match=f.match), number=t))
+    print(timeit(f"""match({text!r})""", globals=dict(match=f.match), number=t))
 
 
 print(f.match(source).result)
@@ -145,5 +145,6 @@ print(got)
 
 t = 20000
 rbnf_hs(source, t)
-rbnf_hs(source, t)
+rbnf_py(source, t)
+
 
