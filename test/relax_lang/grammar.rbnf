@@ -1,0 +1,20 @@
+START : <BOF> Mod <EOF>;
+
+
+InExp   : Stmt 'in' Exp;
+AtomExp : App | Lam | If | Lit | InExp | '(' Exp ')';
+Exp   : AtomExp; CommaExps : [CommaExps ','] Exp;
+Stmt  : Let | Open;
+Let   : 'let' Id '=' Exp;
+Open  : 'open' DotId;
+Mod   : 'module' Id '=' '{' [Stmts] '}';
+Stmts : [Stmts] Stmt;
+If    : 'if' Exp 'then' Exp 'else' Exp ['end'];
+Lam   : 'fun' [Ids] '->' Exp ['end'];
+App   : Exp '(' CommaExps ')' ['notailrec'];
+Id    : <identifier>; Ids : [Ids] Id; DotId : [DotId '.'] Id;
+Num   : <number>;
+Str   : <str>;
+Lit   : DotId | Num | Str;
+
+

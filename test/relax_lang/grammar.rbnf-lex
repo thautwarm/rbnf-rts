@@ -1,0 +1,23 @@
+BOF
+EOF
+quote in
+quote (
+quote )
+quote ,
+quote let
+quote =
+quote open
+quote module
+quote {
+quote }
+quote if
+quote then
+quote else
+quote end
+quote fun
+quote ->
+quote notailrec
+identifier
+quote .
+number
+str

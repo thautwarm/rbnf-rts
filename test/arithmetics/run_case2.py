@@ -146,5 +146,3 @@ print(got)
 t = 20000
 rbnf_hs(source, t)
 rbnf_py(source, t)
-
-
