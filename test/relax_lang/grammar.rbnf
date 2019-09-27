@@ -1,8 +1,7 @@
 START : <BOF> Mod <EOF>;
 
-
 InExp   : Stmt 'in' Exp;
-AtomExp : App | Lam | If | Lit | InExp | '(' Exp ')';
+AtomExp : App | Lam | If | Match | Lit | InExp | '(' Exp ')';
 Exp   : AtomExp; CommaExps : [CommaExps ','] Exp;
 Stmt  : Let | Open;
 Let   : 'let' Id '=' Exp;
@@ -15,6 +14,21 @@ App   : Exp '(' CommaExps ')' ['notailrec'];
 Id    : <identifier>; Ids : [Ids] Id; DotId : [DotId '.'] Id;
 Num   : <number>;
 Str   : <str>;
-Lit   : DotId | Num | Str;
+Lit   : DotId | Num | Str | List | Tuple;
+List  : '[' [CommaExps] ']';
+Tuple : '(' ')' | '(' Exp ',' [CommaExps] ')';
 
+Match      : "match" Exp "with" CaseExps ['end'];
+CaseExps   : [CaseExps] CaseExp;
+CaseExp    : '|' Case '->' Exp;
 
+Case       : LitCase | Recogniser;
+Recogniser : DotId ['(' [CommaCases] ')'];
+CommaCases : [CommaCases ','] Case;
+
+LitCase    : NumCase | StrCase | ListCase | TupleCase | PinCase;
+PinCase    : '^' Exp;
+NumCase    : <number>;
+StrCase    : <str>;
+ListCase   : '[' [CommaCases] ']';
+TupleCase  : '(' ')' | '(' Case ',' [CommaCases] ')';

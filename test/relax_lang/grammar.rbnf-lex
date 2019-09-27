@@ -21,3 +21,9 @@ identifier
 quote .
 number
 str
+quote [
+quote ]
+quote match
+quote with
+quote |
+quote ^

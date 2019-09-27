@@ -1,8 +1,3 @@
-"""
-
-
-"""
-import operator
 import ast
 from rbnf_rts.rbnf_prims import link, Tokens, State
 from rbnf_rts.utils import ImmutableMap
@@ -36,16 +31,21 @@ lexicals, run_lexer = lexer(
     l[')'],
     l['.'],
     l['='],
+    l['|'],
+    l['^'],
     ignores=['space'],
     reserved_map=ImmutableMap.from_dict(rev_map))
 
 scope = link(lexicals, gencode, scope=None, filename=py_file)
 
-tokens = list(run_lexer("<current file>", """
+tokens = list(
+    run_lexer(
+        "<current file>", """
 module F = {
     let x = 1
     let main = fun a b c ->
-        a(b, c)
+        match a(b, c) with
+        | ^a -> 2
 }
 """))
 for e in tokens:

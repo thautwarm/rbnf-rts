@@ -21,6 +21,93 @@
 #prim__is__null::forall a. a -> bool
 #prim__is__not__null::forall a. a -> bool
 #always__true::bool
+def lr_step_CaseExps(_slot_0, prim__state, prim__tokens):
+    lcl_0 = parse_CaseExp(prim__state, prim__tokens)
+    _slot_1_check = lcl_0
+    lcl_0 = _slot_1_check[0]
+    lcl_0 = prim__eq(lcl_0, False)
+    if lcl_0:
+        lcl_0 = _slot_1_check
+    else:
+        lcl_0 = _slot_1_check[1]
+        lcl_0 = prim__to__result(lcl_0)
+        _slot_1 = lcl_0
+        lcl_0 = (_slot_0, _slot_1)
+        lcl_0 = prim__mk__ast("CaseExps", lcl_0)
+        _slot_local__1 = lcl_0
+        lcl_0 = (True, _slot_local__1)
+    return lcl_0
+def lr_loop_CaseExps(_slot_0, prim__state, prim__tokens):
+    lr_CaseExps_reduce = _slot_0
+    lcl_0 = prim__tokens.offset
+    _off_0 = lcl_0
+    lcl_0 = lr_step_CaseExps(lr_CaseExps_reduce, prim__state, prim__tokens)
+    lr_CaseExps_try = lcl_0
+    lcl_0 = lr_CaseExps_try[0]
+    lcl_0 = prim__not__eq(lcl_0, False)
+    while lcl_0:
+        lcl_0 = prim__tokens.offset
+        _off_0 = lcl_0
+        lcl_0 = lr_CaseExps_try[1]
+        lcl_0 = prim__to__result(lcl_0)
+        lr_CaseExps_reduce = lcl_0
+        lcl_0 = lr_step_CaseExps(lr_CaseExps_reduce, prim__state, prim__tokens)
+        lr_CaseExps_try = lcl_0
+        # recalculate condition
+        lcl_0 = lr_CaseExps_try[0]
+        lcl_0 = prim__not__eq(lcl_0, False)
+    lcl_0 = prim__reset(prim__tokens, _off_0)
+    return lr_CaseExps_reduce
+def lr_step_CommaCases(_slot_0, prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote ,")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_1 = lcl_0
+    lcl_0 = prim__is__null(_slot_1)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote , not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = (_slot_0, _slot_1)
+        _slot_local__1 = lcl_0
+        lcl_0 = parse_Case(prim__state, prim__tokens)
+        _slot_2_check = lcl_0
+        lcl_0 = _slot_2_check[0]
+        lcl_0 = prim__eq(lcl_0, False)
+        if lcl_0:
+            lcl_0 = _slot_2_check
+        else:
+            lcl_0 = _slot_2_check[1]
+            lcl_0 = prim__to__result(lcl_0)
+            _slot_2 = lcl_0
+            lcl_0 = (_slot_local__1, _slot_2)
+            lcl_0 = prim__mk__ast("CommaCases", lcl_0)
+            _slot_local__2 = lcl_0
+            lcl_0 = (True, _slot_local__2)
+    return lcl_0
+def lr_loop_CommaCases(_slot_0, prim__state, prim__tokens):
+    lr_CommaCases_reduce = _slot_0
+    lcl_0 = prim__tokens.offset
+    _off_0 = lcl_0
+    lcl_0 = lr_step_CommaCases(lr_CommaCases_reduce, prim__state, prim__tokens)
+    lr_CommaCases_try = lcl_0
+    lcl_0 = lr_CommaCases_try[0]
+    lcl_0 = prim__not__eq(lcl_0, False)
+    while lcl_0:
+        lcl_0 = prim__tokens.offset
+        _off_0 = lcl_0
+        lcl_0 = lr_CommaCases_try[1]
+        lcl_0 = prim__to__result(lcl_0)
+        lr_CommaCases_reduce = lcl_0
+        lcl_0 = lr_step_CommaCases(lr_CommaCases_reduce, prim__state, prim__tokens)
+        lr_CommaCases_try = lcl_0
+        # recalculate condition
+        lcl_0 = lr_CommaCases_try[0]
+        lcl_0 = prim__not__eq(lcl_0, False)
+    lcl_0 = prim__reset(prim__tokens, _off_0)
+    return lr_CommaCases_reduce
 def lr_step_CommaExps(_slot_0, prim__state, prim__tokens):
     lcl_0 = prim__tk__id("quote ,")
     lcl_0 = prim__match__tk(prim__tokens, lcl_0)
@@ -301,6 +388,211 @@ def lr_loop_Stmts(_slot_0, prim__state, prim__tokens):
         lcl_0 = prim__not__eq(lcl_0, False)
     lcl_0 = prim__reset(prim__tokens, _off_0)
     return lr_Stmts_reduce
+def parse_Case(prim__state, prim__tokens):
+    lcl_0 = prim__tokens.offset
+    _off_0 = lcl_0
+    lcl_0 = prim__peekable(prim__tokens, 0)
+    if lcl_0:
+        # switch
+        lcl_2 = prim__peek(prim__tokens, 0)
+        lcl_2 = lcl_2.idint
+        if lcl_2 == prim__tk__id("str"):
+            lcl_2 = parse_LitCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("Case", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ^"):
+            lcl_2 = parse_LitCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_3 = _slot_0_check[1]
+                lcl_3 = prim__to__result(lcl_3)
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0,)
+                lcl_3 = prim__mk__ast("Case", lcl_3)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_2 = lcl_3
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ["):
+            lcl_2 = parse_LitCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_3 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_3, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("Case", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ("):
+            lcl_2 = parse_LitCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_3 = _slot_0_check[1]
+                lcl_3 = prim__to__result(lcl_3)
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0,)
+                lcl_3 = prim__mk__ast("Case", lcl_3)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_2 = lcl_3
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("number"):
+            lcl_2 = parse_LitCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_3 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_3, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("Case", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("identifier"):
+            lcl_2 = parse_Recogniser(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_3 = _slot_0_check[1]
+                lcl_3 = prim__to__result(lcl_3)
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0,)
+                lcl_3 = prim__mk__ast("Case", lcl_3)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_2 = lcl_3
+            lcl_1 = lcl_2
+        else:
+            lcl_2 = (_off_0, "Case lookahead failed")
+            lcl_3 = prim__cons(lcl_2, prim__nil)
+            lcl_2 = prim__to__any(lcl_3)
+            lcl_2 = (False, lcl_2)
+            lcl_1 = lcl_2
+        lcl_0 = lcl_1
+    else:
+        lcl_1 = (_off_0, "Case got EOF")
+        lcl_1 = prim__cons(lcl_1, prim__nil)
+        lcl_1 = prim__to__any(lcl_1)
+        lcl_1 = (False, lcl_1)
+        lcl_0 = lcl_1
+    return lcl_0
+def parse_CaseExp(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote |")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote | not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = parse_Case(prim__state, prim__tokens)
+        _slot_1_check = lcl_0
+        lcl_0 = _slot_1_check[0]
+        lcl_0 = prim__eq(lcl_0, False)
+        if lcl_0:
+            lcl_0 = _slot_1_check
+        else:
+            lcl_1 = _slot_1_check[1]
+            lcl_1 = prim__to__result(lcl_1)
+            _slot_1 = lcl_1
+            lcl_1 = prim__tk__id("quote ->")
+            lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+            _slot_2 = lcl_1
+            lcl_1 = prim__is__null(_slot_2)
+            if lcl_1:
+                lcl_1 = prim__tokens.offset
+                lcl_1 = (lcl_1, "quote -> not match")
+                lcl_1 = prim__cons(lcl_1, prim__nil)
+                lcl_1 = prim__to__any(lcl_1)
+                lcl_1 = (False, lcl_1)
+            else:
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_3_check = lcl_1
+                lcl_1 = _slot_3_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_3_check
+                else:
+                    lcl_2 = _slot_3_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_3 = lcl_2
+                    lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                    lcl_2 = prim__mk__ast("CaseExp", lcl_2)
+                    _slot_local__1 = lcl_2
+                    lcl_2 = (True, _slot_local__1)
+                    lcl_1 = lcl_2
+            lcl_0 = lcl_1
+    return lcl_0
+def parse_CaseExps(prim__state, prim__tokens):
+    lcl_0 = parse_CaseExp(prim__state, prim__tokens)
+    _slot_0_check = lcl_0
+    lcl_0 = _slot_0_check[0]
+    lcl_0 = prim__eq(lcl_0, False)
+    if lcl_0:
+        lcl_0 = _slot_0_check
+    else:
+        lcl_0 = _slot_0_check[1]
+        lcl_0 = prim__to__result(lcl_0)
+        _slot_0 = lcl_0
+        lcl_0 = (_slot_0,)
+        lcl_0 = prim__mk__ast("CaseExps", lcl_0)
+        _slot_local__1 = lcl_0
+        lcl_0 = lr_loop_CaseExps(_slot_local__1, prim__state, prim__tokens)
+        lcl_0 = (True, lcl_0)
+    return lcl_0
+def parse_CommaCases(prim__state, prim__tokens):
+    lcl_0 = parse_Case(prim__state, prim__tokens)
+    _slot_0_check = lcl_0
+    lcl_0 = _slot_0_check[0]
+    lcl_0 = prim__eq(lcl_0, False)
+    if lcl_0:
+        lcl_0 = _slot_0_check
+    else:
+        lcl_0 = _slot_0_check[1]
+        lcl_0 = prim__to__result(lcl_0)
+        _slot_0 = lcl_0
+        lcl_0 = (_slot_0,)
+        lcl_0 = prim__mk__ast("CommaCases", lcl_0)
+        _slot_local__1 = lcl_0
+        lcl_0 = lr_loop_CommaCases(_slot_local__1, prim__state, prim__tokens)
+        lcl_0 = (True, lcl_0)
+    return lcl_0
 def parse_CommaExps(prim__state, prim__tokens):
     lcl_0 = parse_Exp(prim__state, prim__tokens)
     _slot_0_check = lcl_0
@@ -383,6 +675,26 @@ def parse_Exp(prim__state, prim__tokens):
                 lcl_2 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
                 lcl_2 = (True, lcl_2)
             lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote match"):
+            lcl_2 = parse_Match(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("AtomExp", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (_slot_local__1,)
+                lcl_2 = prim__mk__ast("Exp", lcl_2)
+                _slot_local__2 = lcl_2
+                lcl_2 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
+                lcl_2 = (True, lcl_2)
+            lcl_1 = lcl_2
         elif lcl_2 == prim__tk__id("quote let"):
             lcl_2 = parse_InExp(prim__state, prim__tokens)
             _slot_0_check = lcl_2
@@ -443,7 +755,31 @@ def parse_Exp(prim__state, prim__tokens):
                 lcl_2 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
                 lcl_2 = (True, lcl_2)
             lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ["):
+            lcl_2 = parse_Lit(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("AtomExp", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (_slot_local__1,)
+                lcl_2 = prim__mk__ast("Exp", lcl_2)
+                _slot_local__2 = lcl_2
+                lcl_2 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
+                lcl_2 = (True, lcl_2)
+            lcl_1 = lcl_2
         elif lcl_2 == prim__tk__id("quote ("):
+            lcl_2 = prim__tokens.offset
+            _off_1 = lcl_2
+            lcl_2 = prim__tokens.offset
+            _off_2 = lcl_2
             lcl_2 = prim__mv__forward(prim__tokens)
             _slot_0 = lcl_2
             lcl_2 = parse_Exp(prim__state, prim__tokens)
@@ -885,6 +1221,516 @@ def parse_Let(prim__state, prim__tokens):
                     lcl_1 = lcl_2
             lcl_0 = lcl_1
     return lcl_0
+def parse_List(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote [")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote [ not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = prim__tokens.offset
+        _off_1 = lcl_0
+        lcl_0 = prim__peekable(prim__tokens, 0)
+        if lcl_0:
+            # switch
+            lcl_1 = prim__peek(prim__tokens, 0)
+            lcl_1 = lcl_1.idint
+            if lcl_1 == prim__tk__id("str"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote open"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote match"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote let"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote if"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote fun"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ]"):
+                lcl_1 = prim__mv__forward(prim__tokens)
+                _slot_1 = lcl_1
+                lcl_1 = (_slot_0, _slot_1)
+                lcl_1 = prim__mk__ast("List", lcl_1)
+                _slot_local__1 = lcl_1
+                lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ["):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ("):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("number"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("identifier"):
+                lcl_1 = parse_CommaExps(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("List", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            else:
+                lcl_1 = (_off_1, "List lookahead failed")
+                lcl_1 = prim__cons(lcl_1, prim__nil)
+                lcl_1 = prim__to__any(lcl_1)
+                lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+        else:
+            lcl_0 = (_off_1, "List got EOF")
+            lcl_0 = prim__cons(lcl_0, prim__nil)
+            lcl_0 = prim__to__any(lcl_0)
+            lcl_0 = (False, lcl_0)
+    return lcl_0
+def parse_ListCase(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote [")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote [ not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = prim__tokens.offset
+        _off_1 = lcl_0
+        lcl_0 = prim__peekable(prim__tokens, 0)
+        if lcl_0:
+            # switch
+            lcl_1 = prim__peek(prim__tokens, 0)
+            lcl_1 = lcl_1.idint
+            if lcl_1 == prim__tk__id("str"):
+                lcl_1 = parse_CommaCases(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ^"):
+                lcl_1 = parse_CommaCases(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ]"):
+                lcl_1 = prim__mv__forward(prim__tokens)
+                _slot_1 = lcl_1
+                lcl_1 = (_slot_0, _slot_1)
+                lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                _slot_local__1 = lcl_1
+                lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ["):
+                lcl_1 = parse_CommaCases(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ("):
+                lcl_1 = parse_CommaCases(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("number"):
+                lcl_1 = parse_CommaCases(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("identifier"):
+                lcl_1 = parse_CommaCases(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ]")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote ] not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = (_slot_0, _slot_1, _slot_2)
+                        lcl_1 = prim__mk__ast("ListCase", lcl_1)
+                        _slot_local__1 = lcl_1
+                        lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            else:
+                lcl_1 = (_off_1, "ListCase lookahead failed")
+                lcl_1 = prim__cons(lcl_1, prim__nil)
+                lcl_1 = prim__to__any(lcl_1)
+                lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+        else:
+            lcl_0 = (_off_1, "ListCase got EOF")
+            lcl_0 = prim__cons(lcl_0, prim__nil)
+            lcl_0 = prim__to__any(lcl_0)
+            lcl_0 = (False, lcl_0)
+    return lcl_0
 def parse_Lit(prim__state, prim__tokens):
     lcl_0 = prim__tokens.offset
     _off_0 = lcl_0
@@ -898,6 +1744,39 @@ def parse_Lit(prim__state, prim__tokens):
             _slot_0_check = lcl_2
             lcl_2 = _slot_0_check[0]
             lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("Lit", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ["):
+            lcl_2 = parse_List(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_3 = _slot_0_check[1]
+                lcl_3 = prim__to__result(lcl_3)
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0,)
+                lcl_3 = prim__mk__ast("Lit", lcl_3)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_2 = lcl_3
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ("):
+            lcl_2 = parse_Tuple(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_3 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_3, False)
             if lcl_2:
                 lcl_2 = _slot_0_check
             else:
@@ -955,6 +1834,184 @@ def parse_Lit(prim__state, prim__tokens):
         lcl_1 = prim__to__any(lcl_2)
         lcl_1 = (False, lcl_1)
         lcl_0 = lcl_1
+    return lcl_0
+def parse_LitCase(prim__state, prim__tokens):
+    lcl_0 = prim__tokens.offset
+    _off_0 = lcl_0
+    lcl_0 = prim__peekable(prim__tokens, 0)
+    if lcl_0:
+        # switch
+        lcl_2 = prim__peek(prim__tokens, 0)
+        lcl_2 = lcl_2.idint
+        if lcl_2 == prim__tk__id("str"):
+            lcl_2 = parse_StrCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("LitCase", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ^"):
+            lcl_2 = parse_PinCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_3 = _slot_0_check[1]
+                lcl_3 = prim__to__result(lcl_3)
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0,)
+                lcl_3 = prim__mk__ast("LitCase", lcl_3)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_2 = lcl_3
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ["):
+            lcl_2 = parse_ListCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_3 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_3, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("LitCase", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("quote ("):
+            lcl_2 = parse_TupleCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_2 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_2, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_3 = _slot_0_check[1]
+                lcl_3 = prim__to__result(lcl_3)
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0,)
+                lcl_3 = prim__mk__ast("LitCase", lcl_3)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_2 = lcl_3
+            lcl_1 = lcl_2
+        elif lcl_2 == prim__tk__id("number"):
+            lcl_2 = parse_NumCase(prim__state, prim__tokens)
+            _slot_0_check = lcl_2
+            lcl_3 = _slot_0_check[0]
+            lcl_2 = prim__eq(lcl_3, False)
+            if lcl_2:
+                lcl_2 = _slot_0_check
+            else:
+                lcl_2 = _slot_0_check[1]
+                lcl_2 = prim__to__result(lcl_2)
+                _slot_0 = lcl_2
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("LitCase", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+            lcl_1 = lcl_2
+        else:
+            lcl_2 = (_off_0, "LitCase lookahead failed")
+            lcl_2 = prim__cons(lcl_2, prim__nil)
+            lcl_2 = prim__to__any(lcl_2)
+            lcl_2 = (False, lcl_2)
+            lcl_1 = lcl_2
+        lcl_0 = lcl_1
+    else:
+        lcl_1 = (_off_0, "LitCase got EOF")
+        lcl_2 = prim__cons(lcl_1, prim__nil)
+        lcl_1 = prim__to__any(lcl_2)
+        lcl_1 = (False, lcl_1)
+        lcl_0 = lcl_1
+    return lcl_0
+def parse_Match(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote match")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote match not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = parse_Exp(prim__state, prim__tokens)
+        _slot_1_check = lcl_0
+        lcl_0 = _slot_1_check[0]
+        lcl_0 = prim__eq(lcl_0, False)
+        if lcl_0:
+            lcl_0 = _slot_1_check
+        else:
+            lcl_1 = _slot_1_check[1]
+            lcl_1 = prim__to__result(lcl_1)
+            _slot_1 = lcl_1
+            lcl_1 = prim__tk__id("quote with")
+            lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+            _slot_2 = lcl_1
+            lcl_1 = prim__is__null(_slot_2)
+            if lcl_1:
+                lcl_1 = prim__tokens.offset
+                lcl_1 = (lcl_1, "quote with not match")
+                lcl_1 = prim__cons(lcl_1, prim__nil)
+                lcl_1 = prim__to__any(lcl_1)
+                lcl_1 = (False, lcl_1)
+            else:
+                lcl_1 = parse_CaseExps(prim__state, prim__tokens)
+                _slot_3_check = lcl_1
+                lcl_1 = _slot_3_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_3_check
+                else:
+                    lcl_2 = _slot_3_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_3 = lcl_2
+                    lcl_2 = prim__tokens.offset
+                    _off_2 = lcl_2
+                    lcl_2 = prim__peekable(prim__tokens, 0)
+                    if lcl_2:
+                        # switch
+                        lcl_4 = prim__peek(prim__tokens, 0)
+                        lcl_4 = lcl_4.idint
+                        if lcl_4 == prim__tk__id("quote end"):
+                            lcl_4 = prim__mv__forward(prim__tokens)
+                            _slot_4 = lcl_4
+                            lcl_4 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                            lcl_4 = prim__mk__ast("Match", lcl_4)
+                            _slot_local__1 = lcl_4
+                            lcl_4 = (True, _slot_local__1)
+                            lcl_3 = lcl_4
+                        else:
+                            lcl_4 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                            lcl_4 = prim__mk__ast("Match", lcl_4)
+                            _slot_local__1 = lcl_4
+                            lcl_4 = (True, _slot_local__1)
+                            lcl_3 = lcl_4
+                        lcl_2 = lcl_3
+                    else:
+                        lcl_3 = (_off_2, "Match got EOF")
+                        lcl_4 = prim__cons(lcl_3, prim__nil)
+                        lcl_3 = prim__to__any(lcl_4)
+                        lcl_3 = (False, lcl_3)
+                        lcl_2 = lcl_3
+                    lcl_1 = lcl_2
+            lcl_0 = lcl_1
     return lcl_0
 def parse_Mod(prim__state, prim__tokens):
     lcl_0 = prim__tk__id("quote module")
@@ -1101,6 +2158,23 @@ def parse_Num(prim__state, prim__tokens):
         _slot_local__1 = lcl_0
         lcl_0 = (True, _slot_local__1)
     return lcl_0
+def parse_NumCase(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("number")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "number not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = (_slot_0,)
+        lcl_0 = prim__mk__ast("NumCase", lcl_0)
+        _slot_local__1 = lcl_0
+        lcl_0 = (True, _slot_local__1)
+    return lcl_0
 def parse_Open(prim__state, prim__tokens):
     lcl_0 = prim__tk__id("quote open")
     lcl_0 = prim__match__tk(prim__tokens, lcl_0)
@@ -1127,6 +2201,274 @@ def parse_Open(prim__state, prim__tokens):
             lcl_1 = prim__mk__ast("Open", lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = (True, _slot_local__1)
+            lcl_0 = lcl_1
+    return lcl_0
+def parse_PinCase(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote ^")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote ^ not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = parse_Exp(prim__state, prim__tokens)
+        _slot_1_check = lcl_0
+        lcl_0 = _slot_1_check[0]
+        lcl_0 = prim__eq(lcl_0, False)
+        if lcl_0:
+            lcl_0 = _slot_1_check
+        else:
+            lcl_1 = _slot_1_check[1]
+            lcl_1 = prim__to__result(lcl_1)
+            _slot_1 = lcl_1
+            lcl_1 = (_slot_0, _slot_1)
+            lcl_1 = prim__mk__ast("PinCase", lcl_1)
+            _slot_local__1 = lcl_1
+            lcl_1 = (True, _slot_local__1)
+            lcl_0 = lcl_1
+    return lcl_0
+def parse_Recogniser(prim__state, prim__tokens):
+    lcl_0 = parse_DotId(prim__state, prim__tokens)
+    _slot_0_check = lcl_0
+    lcl_0 = _slot_0_check[0]
+    lcl_0 = prim__eq(lcl_0, False)
+    if lcl_0:
+        lcl_0 = _slot_0_check
+    else:
+        lcl_0 = _slot_0_check[1]
+        lcl_0 = prim__to__result(lcl_0)
+        _slot_0 = lcl_0
+        lcl_0 = prim__tokens.offset
+        _off_0 = lcl_0
+        lcl_0 = prim__peekable(prim__tokens, 0)
+        if lcl_0:
+            # switch
+            lcl_2 = prim__peek(prim__tokens, 0)
+            lcl_2 = lcl_2.idint
+            if lcl_2 == prim__tk__id("quote ("):
+                lcl_2 = prim__mv__forward(prim__tokens)
+                _slot_1 = lcl_2
+                lcl_2 = prim__tokens.offset
+                _off_1 = lcl_2
+                lcl_2 = prim__peekable(prim__tokens, 0)
+                if lcl_2:
+                    # switch
+                    lcl_3 = prim__peek(prim__tokens, 0)
+                    lcl_3 = lcl_3.idint
+                    if lcl_3 == prim__tk__id("str"):
+                        lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                        _slot_2_check = lcl_3
+                        lcl_3 = _slot_2_check[0]
+                        lcl_3 = prim__eq(lcl_3, False)
+                        if lcl_3:
+                            lcl_3 = _slot_2_check
+                        else:
+                            lcl_3 = _slot_2_check[1]
+                            lcl_3 = prim__to__result(lcl_3)
+                            _slot_2 = lcl_3
+                            lcl_3 = prim__tk__id("quote )")
+                            lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                            _slot_3 = lcl_3
+                            lcl_3 = prim__is__null(_slot_3)
+                            if lcl_3:
+                                lcl_3 = prim__tokens.offset
+                                lcl_3 = (lcl_3, "quote ) not match")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                            else:
+                                lcl_3 = (_slot_1, _slot_2, _slot_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (_slot_0, _slot_local__1)
+                                lcl_3 = prim__mk__ast("Recogniser", lcl_3)
+                                _slot_local__2 = lcl_3
+                                lcl_3 = (True, _slot_local__2)
+                        lcl_2 = lcl_3
+                    elif lcl_3 == prim__tk__id("quote ^"):
+                        lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                        _slot_2_check = lcl_3
+                        lcl_3 = _slot_2_check[0]
+                        lcl_3 = prim__eq(lcl_3, False)
+                        if lcl_3:
+                            lcl_3 = _slot_2_check
+                        else:
+                            lcl_4 = _slot_2_check[1]
+                            lcl_4 = prim__to__result(lcl_4)
+                            _slot_2 = lcl_4
+                            lcl_4 = prim__tk__id("quote )")
+                            lcl_4 = prim__match__tk(prim__tokens, lcl_4)
+                            _slot_3 = lcl_4
+                            lcl_4 = prim__is__null(_slot_3)
+                            if lcl_4:
+                                lcl_4 = prim__tokens.offset
+                                lcl_4 = (lcl_4, "quote ) not match")
+                                lcl_4 = prim__cons(lcl_4, prim__nil)
+                                lcl_4 = prim__to__any(lcl_4)
+                                lcl_4 = (False, lcl_4)
+                            else:
+                                lcl_4 = (_slot_1, _slot_2, _slot_3)
+                                _slot_local__1 = lcl_4
+                                lcl_4 = (_slot_0, _slot_local__1)
+                                lcl_4 = prim__mk__ast("Recogniser", lcl_4)
+                                _slot_local__2 = lcl_4
+                                lcl_4 = (True, _slot_local__2)
+                            lcl_3 = lcl_4
+                        lcl_2 = lcl_3
+                    elif lcl_3 == prim__tk__id("quote ["):
+                        lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                        _slot_2_check = lcl_3
+                        lcl_4 = _slot_2_check[0]
+                        lcl_3 = prim__eq(lcl_4, False)
+                        if lcl_3:
+                            lcl_3 = _slot_2_check
+                        else:
+                            lcl_3 = _slot_2_check[1]
+                            lcl_3 = prim__to__result(lcl_3)
+                            _slot_2 = lcl_3
+                            lcl_3 = prim__tk__id("quote )")
+                            lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                            _slot_3 = lcl_3
+                            lcl_3 = prim__is__null(_slot_3)
+                            if lcl_3:
+                                lcl_3 = prim__tokens.offset
+                                lcl_3 = (lcl_3, "quote ) not match")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                            else:
+                                lcl_3 = (_slot_1, _slot_2, _slot_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (_slot_0, _slot_local__1)
+                                lcl_3 = prim__mk__ast("Recogniser", lcl_3)
+                                _slot_local__2 = lcl_3
+                                lcl_3 = (True, _slot_local__2)
+                        lcl_2 = lcl_3
+                    elif lcl_3 == prim__tk__id("quote )"):
+                        lcl_3 = prim__mv__forward(prim__tokens)
+                        _slot_2 = lcl_3
+                        lcl_3 = (_slot_1, _slot_2)
+                        _slot_local__1 = lcl_3
+                        lcl_3 = (_slot_0, _slot_local__1)
+                        lcl_3 = prim__mk__ast("Recogniser", lcl_3)
+                        _slot_local__2 = lcl_3
+                        lcl_3 = (True, _slot_local__2)
+                        lcl_2 = lcl_3
+                    elif lcl_3 == prim__tk__id("quote ("):
+                        lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                        _slot_2_check = lcl_3
+                        lcl_3 = _slot_2_check[0]
+                        lcl_3 = prim__eq(lcl_3, False)
+                        if lcl_3:
+                            lcl_3 = _slot_2_check
+                        else:
+                            lcl_3 = _slot_2_check[1]
+                            lcl_3 = prim__to__result(lcl_3)
+                            _slot_2 = lcl_3
+                            lcl_3 = prim__tk__id("quote )")
+                            lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                            _slot_3 = lcl_3
+                            lcl_3 = prim__is__null(_slot_3)
+                            if lcl_3:
+                                lcl_3 = prim__tokens.offset
+                                lcl_3 = (lcl_3, "quote ) not match")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                            else:
+                                lcl_3 = (_slot_1, _slot_2, _slot_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (_slot_0, _slot_local__1)
+                                lcl_3 = prim__mk__ast("Recogniser", lcl_3)
+                                _slot_local__2 = lcl_3
+                                lcl_3 = (True, _slot_local__2)
+                        lcl_2 = lcl_3
+                    elif lcl_3 == prim__tk__id("number"):
+                        lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                        _slot_2_check = lcl_3
+                        lcl_3 = _slot_2_check[0]
+                        lcl_3 = prim__eq(lcl_3, False)
+                        if lcl_3:
+                            lcl_3 = _slot_2_check
+                        else:
+                            lcl_4 = _slot_2_check[1]
+                            lcl_4 = prim__to__result(lcl_4)
+                            _slot_2 = lcl_4
+                            lcl_4 = prim__tk__id("quote )")
+                            lcl_4 = prim__match__tk(prim__tokens, lcl_4)
+                            _slot_3 = lcl_4
+                            lcl_4 = prim__is__null(_slot_3)
+                            if lcl_4:
+                                lcl_4 = prim__tokens.offset
+                                lcl_4 = (lcl_4, "quote ) not match")
+                                lcl_4 = prim__cons(lcl_4, prim__nil)
+                                lcl_4 = prim__to__any(lcl_4)
+                                lcl_4 = (False, lcl_4)
+                            else:
+                                lcl_4 = (_slot_1, _slot_2, _slot_3)
+                                _slot_local__1 = lcl_4
+                                lcl_4 = (_slot_0, _slot_local__1)
+                                lcl_4 = prim__mk__ast("Recogniser", lcl_4)
+                                _slot_local__2 = lcl_4
+                                lcl_4 = (True, _slot_local__2)
+                            lcl_3 = lcl_4
+                        lcl_2 = lcl_3
+                    elif lcl_3 == prim__tk__id("identifier"):
+                        lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                        _slot_2_check = lcl_3
+                        lcl_4 = _slot_2_check[0]
+                        lcl_3 = prim__eq(lcl_4, False)
+                        if lcl_3:
+                            lcl_3 = _slot_2_check
+                        else:
+                            lcl_3 = _slot_2_check[1]
+                            lcl_3 = prim__to__result(lcl_3)
+                            _slot_2 = lcl_3
+                            lcl_3 = prim__tk__id("quote )")
+                            lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                            _slot_3 = lcl_3
+                            lcl_3 = prim__is__null(_slot_3)
+                            if lcl_3:
+                                lcl_3 = prim__tokens.offset
+                                lcl_3 = (lcl_3, "quote ) not match")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                            else:
+                                lcl_3 = (_slot_1, _slot_2, _slot_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (_slot_0, _slot_local__1)
+                                lcl_3 = prim__mk__ast("Recogniser", lcl_3)
+                                _slot_local__2 = lcl_3
+                                lcl_3 = (True, _slot_local__2)
+                        lcl_2 = lcl_3
+                    else:
+                        lcl_3 = (_off_1, "Recogniser lookahead failed")
+                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                        lcl_3 = prim__to__any(lcl_3)
+                        lcl_3 = (False, lcl_3)
+                        lcl_2 = lcl_3
+                else:
+                    lcl_2 = (_off_1, "Recogniser got EOF")
+                    lcl_3 = prim__cons(lcl_2, prim__nil)
+                    lcl_2 = prim__to__any(lcl_3)
+                    lcl_2 = (False, lcl_2)
+                lcl_1 = lcl_2
+            else:
+                lcl_2 = (_slot_0,)
+                lcl_2 = prim__mk__ast("Recogniser", lcl_2)
+                _slot_local__1 = lcl_2
+                lcl_2 = (True, _slot_local__1)
+                lcl_1 = lcl_2
+            lcl_0 = lcl_1
+        else:
+            lcl_1 = (_off_0, "Recogniser got EOF")
+            lcl_2 = prim__cons(lcl_1, prim__nil)
+            lcl_1 = prim__to__any(lcl_2)
+            lcl_1 = (False, lcl_1)
             lcl_0 = lcl_1
     return lcl_0
 def parse_START(prim__state, prim__tokens):
@@ -1256,4 +2598,4563 @@ def parse_Str(prim__state, prim__tokens):
         lcl_0 = prim__mk__ast("Str", lcl_0)
         _slot_local__1 = lcl_0
         lcl_0 = (True, _slot_local__1)
+    return lcl_0
+def parse_StrCase(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("str")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "str not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = (_slot_0,)
+        lcl_0 = prim__mk__ast("StrCase", lcl_0)
+        _slot_local__1 = lcl_0
+        lcl_0 = (True, _slot_local__1)
+    return lcl_0
+def parse_Tuple(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote (")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote ( not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = prim__tokens.offset
+        _off_1 = lcl_0
+        lcl_0 = prim__peekable(prim__tokens, 0)
+        if lcl_0:
+            # switch
+            lcl_1 = prim__peek(prim__tokens, 0)
+            lcl_1 = lcl_1.idint
+            if lcl_1 == prim__tk__id("str"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote open"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote match"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote let"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote if"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote fun"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "Tuple lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "Tuple got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote open"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote open"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote match"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote let"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote if"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote fun"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "Tuple lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "Tuple got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote match"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_2 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_2, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote open"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote match"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote let"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote if"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote fun"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "Tuple lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "Tuple got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote let"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote open"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote match"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote let"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote if"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote fun"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "Tuple lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "Tuple got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote if"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_2 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_2, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote open"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote match"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote let"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote if"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote fun"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "Tuple lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "Tuple got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote fun"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote open"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote match"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote let"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote if"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote fun"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "Tuple lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "Tuple got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ["):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_2 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_2, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote open"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote match"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote let"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote if"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote fun"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "Tuple lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "Tuple got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote )"):
+                lcl_1 = prim__mv__forward(prim__tokens)
+                _slot_1 = lcl_1
+                lcl_1 = (_slot_0, _slot_1)
+                lcl_1 = prim__mk__ast("Tuple", lcl_1)
+                _slot_local__1 = lcl_1
+                lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ("):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote open"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote match"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote let"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote if"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote fun"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "Tuple lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "Tuple got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("number"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_2 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_2, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote open"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote match"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote let"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote if"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote fun"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("Tuple", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "Tuple lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "Tuple got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("identifier"):
+                lcl_1 = parse_Exp(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote open"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote match"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote let"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote if"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote fun"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaExps(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("Tuple", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "Tuple lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "Tuple got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            else:
+                lcl_1 = (_off_1, "Tuple lookahead failed")
+                lcl_2 = prim__cons(lcl_1, prim__nil)
+                lcl_1 = prim__to__any(lcl_2)
+                lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+        else:
+            lcl_0 = (_off_1, "Tuple got EOF")
+            lcl_0 = prim__cons(lcl_0, prim__nil)
+            lcl_0 = prim__to__any(lcl_0)
+            lcl_0 = (False, lcl_0)
+    return lcl_0
+def parse_TupleCase(prim__state, prim__tokens):
+    lcl_0 = prim__tk__id("quote (")
+    lcl_0 = prim__match__tk(prim__tokens, lcl_0)
+    _slot_0 = lcl_0
+    lcl_0 = prim__is__null(_slot_0)
+    if lcl_0:
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0, "quote ( not match")
+        lcl_0 = prim__cons(lcl_0, prim__nil)
+        lcl_0 = prim__to__any(lcl_0)
+        lcl_0 = (False, lcl_0)
+    else:
+        lcl_0 = prim__tokens.offset
+        _off_1 = lcl_0
+        lcl_0 = prim__peekable(prim__tokens, 0)
+        if lcl_0:
+            # switch
+            lcl_1 = prim__peek(prim__tokens, 0)
+            lcl_1 = lcl_1.idint
+            if lcl_1 == prim__tk__id("str"):
+                lcl_1 = parse_Case(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ^"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "TupleCase lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "TupleCase got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ^"):
+                lcl_1 = parse_Case(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ^"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "TupleCase lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "TupleCase got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ["):
+                lcl_1 = parse_Case(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_2 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_2, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ^"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "TupleCase lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "TupleCase got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote )"):
+                lcl_1 = prim__mv__forward(prim__tokens)
+                _slot_1 = lcl_1
+                lcl_1 = (_slot_0, _slot_1)
+                lcl_1 = prim__mk__ast("TupleCase", lcl_1)
+                _slot_local__1 = lcl_1
+                lcl_1 = (True, _slot_local__1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("quote ("):
+                lcl_1 = parse_Case(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ^"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "TupleCase lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "TupleCase got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("number"):
+                lcl_1 = parse_Case(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_2 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_2, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_1 = _slot_1_check[1]
+                    lcl_1 = prim__to__result(lcl_1)
+                    _slot_1 = lcl_1
+                    lcl_1 = prim__tk__id("quote ,")
+                    lcl_1 = prim__match__tk(prim__tokens, lcl_1)
+                    _slot_2 = lcl_1
+                    lcl_1 = prim__is__null(_slot_2)
+                    if lcl_1:
+                        lcl_1 = prim__tokens.offset
+                        lcl_1 = (lcl_1, "quote , not match")
+                        lcl_1 = prim__cons(lcl_1, prim__nil)
+                        lcl_1 = prim__to__any(lcl_1)
+                        lcl_1 = (False, lcl_1)
+                    else:
+                        lcl_1 = prim__tokens.offset
+                        _off_3 = lcl_1
+                        lcl_1 = prim__peekable(prim__tokens, 0)
+                        if lcl_1:
+                            # switch
+                            lcl_2 = prim__peek(prim__tokens, 0)
+                            lcl_2 = lcl_2.idint
+                            if lcl_2 == prim__tk__id("str"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ^"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ["):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote )"):
+                                lcl_2 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_2
+                                lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                _slot_local__1 = lcl_2
+                                lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("quote ("):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("number"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            elif lcl_2 == prim__tk__id("identifier"):
+                                lcl_2 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_2
+                                lcl_2 = _slot_3_check[0]
+                                lcl_2 = prim__eq(lcl_2, False)
+                                if lcl_2:
+                                    lcl_2 = _slot_3_check
+                                else:
+                                    lcl_2 = _slot_3_check[1]
+                                    lcl_2 = prim__to__result(lcl_2)
+                                    _slot_3 = lcl_2
+                                    lcl_2 = prim__tk__id("quote )")
+                                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                                    _slot_4 = lcl_2
+                                    lcl_2 = prim__is__null(_slot_4)
+                                    if lcl_2:
+                                        lcl_2 = prim__tokens.offset
+                                        lcl_2 = (lcl_2, "quote ) not match")
+                                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                                        lcl_2 = prim__to__any(lcl_2)
+                                        lcl_2 = (False, lcl_2)
+                                    else:
+                                        lcl_2 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_2 = prim__mk__ast("TupleCase", lcl_2)
+                                        _slot_local__1 = lcl_2
+                                        lcl_2 = (True, _slot_local__1)
+                                lcl_1 = lcl_2
+                            else:
+                                lcl_2 = (_off_3, "TupleCase lookahead failed")
+                                lcl_2 = prim__cons(lcl_2, prim__nil)
+                                lcl_2 = prim__to__any(lcl_2)
+                                lcl_2 = (False, lcl_2)
+                                lcl_1 = lcl_2
+                        else:
+                            lcl_1 = (_off_3, "TupleCase got EOF")
+                            lcl_1 = prim__cons(lcl_1, prim__nil)
+                            lcl_1 = prim__to__any(lcl_1)
+                            lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+            elif lcl_1 == prim__tk__id("identifier"):
+                lcl_1 = parse_Case(prim__state, prim__tokens)
+                _slot_1_check = lcl_1
+                lcl_1 = _slot_1_check[0]
+                lcl_1 = prim__eq(lcl_1, False)
+                if lcl_1:
+                    lcl_1 = _slot_1_check
+                else:
+                    lcl_2 = _slot_1_check[1]
+                    lcl_2 = prim__to__result(lcl_2)
+                    _slot_1 = lcl_2
+                    lcl_2 = prim__tk__id("quote ,")
+                    lcl_2 = prim__match__tk(prim__tokens, lcl_2)
+                    _slot_2 = lcl_2
+                    lcl_2 = prim__is__null(_slot_2)
+                    if lcl_2:
+                        lcl_2 = prim__tokens.offset
+                        lcl_2 = (lcl_2, "quote , not match")
+                        lcl_2 = prim__cons(lcl_2, prim__nil)
+                        lcl_2 = prim__to__any(lcl_2)
+                        lcl_2 = (False, lcl_2)
+                    else:
+                        lcl_2 = prim__tokens.offset
+                        _off_3 = lcl_2
+                        lcl_2 = prim__peekable(prim__tokens, 0)
+                        if lcl_2:
+                            # switch
+                            lcl_3 = prim__peek(prim__tokens, 0)
+                            lcl_3 = lcl_3.idint
+                            if lcl_3 == prim__tk__id("str"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ^"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ["):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote )"):
+                                lcl_3 = prim__mv__forward(prim__tokens)
+                                _slot_3 = lcl_3
+                                lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3)
+                                lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                _slot_local__1 = lcl_3
+                                lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("quote ("):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("number"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            elif lcl_3 == prim__tk__id("identifier"):
+                                lcl_3 = parse_CommaCases(prim__state, prim__tokens)
+                                _slot_3_check = lcl_3
+                                lcl_3 = _slot_3_check[0]
+                                lcl_3 = prim__eq(lcl_3, False)
+                                if lcl_3:
+                                    lcl_3 = _slot_3_check
+                                else:
+                                    lcl_3 = _slot_3_check[1]
+                                    lcl_3 = prim__to__result(lcl_3)
+                                    _slot_3 = lcl_3
+                                    lcl_3 = prim__tk__id("quote )")
+                                    lcl_3 = prim__match__tk(prim__tokens, lcl_3)
+                                    _slot_4 = lcl_3
+                                    lcl_3 = prim__is__null(_slot_4)
+                                    if lcl_3:
+                                        lcl_3 = prim__tokens.offset
+                                        lcl_3 = (lcl_3, "quote ) not match")
+                                        lcl_3 = prim__cons(lcl_3, prim__nil)
+                                        lcl_3 = prim__to__any(lcl_3)
+                                        lcl_3 = (False, lcl_3)
+                                    else:
+                                        lcl_3 = (_slot_0, _slot_1, _slot_2, _slot_3, _slot_4)
+                                        lcl_3 = prim__mk__ast("TupleCase", lcl_3)
+                                        _slot_local__1 = lcl_3
+                                        lcl_3 = (True, _slot_local__1)
+                                lcl_2 = lcl_3
+                            else:
+                                lcl_3 = (_off_3, "TupleCase lookahead failed")
+                                lcl_3 = prim__cons(lcl_3, prim__nil)
+                                lcl_3 = prim__to__any(lcl_3)
+                                lcl_3 = (False, lcl_3)
+                                lcl_2 = lcl_3
+                        else:
+                            lcl_2 = (_off_3, "TupleCase got EOF")
+                            lcl_2 = prim__cons(lcl_2, prim__nil)
+                            lcl_2 = prim__to__any(lcl_2)
+                            lcl_2 = (False, lcl_2)
+                    lcl_1 = lcl_2
+                lcl_0 = lcl_1
+            else:
+                lcl_1 = (_off_1, "TupleCase lookahead failed")
+                lcl_2 = prim__cons(lcl_1, prim__nil)
+                lcl_1 = prim__to__any(lcl_2)
+                lcl_1 = (False, lcl_1)
+                lcl_0 = lcl_1
+        else:
+            lcl_0 = (_off_1, "TupleCase got EOF")
+            lcl_0 = prim__cons(lcl_0, prim__nil)
+            lcl_0 = prim__to__any(lcl_0)
+            lcl_0 = (False, lcl_0)
     return lcl_0
