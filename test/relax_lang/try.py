@@ -11,3 +11,7 @@ match a of
 | Str(y) -> x
 
 """
+
+from astpretty import pprint
+from ast import parse
+import dis

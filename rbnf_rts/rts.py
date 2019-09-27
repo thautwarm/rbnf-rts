@@ -1,8 +1,5 @@
 from prettyprinter import pformat
-from typing import Generic, TypeVar, Dict, Optional
-import operator
-import ast
-
+from typing import Generic, TypeVar
 T = TypeVar('T')
 
 
@@ -96,76 +93,3 @@ class Cons:
 
     def __repr__(self):
         return repr(list(self))
-
-
-def link(lexicals: Dict[str, int],
-         gencode: ast.Module,
-         scope: Optional[Dict],
-         filename: str = "unknown"):
-    nil = _nil
-    prim__eq = operator.eq  # should specialize
-    prim__not__eq = operator.ne  # should specialize
-    prim__null = None  # should specialize
-
-    # should inline
-    def prim__peekable(tokens, i):
-        return len(tokens.array) > tokens.offset + i
-
-    # should inline
-    def prim__mv__forward(tokens):
-        i = tokens.offset
-        t = tokens.array[i]
-        tokens.offset = i + 1
-        return t
-
-    # should inline
-    def prim__peek(tokens, i):
-        return tokens.array[tokens.offset + i]
-
-    # should inline
-    def prim__match__tk(tokens, idint):
-        # print(tokens.offset)
-        try:
-            tk = tokens.array[tokens.offset]
-        except IndexError:
-            return None
-        if tk.idint is not idint:
-            return None
-        tokens.offset += 1
-        return tk
-
-    # should specialize
-    def prim__tk__id(s):
-        return lexicals[s]
-
-    # should inline
-    def prim__reset(tokens, i):
-        tokens.offset = i
-
-    prim__cons = Cons
-    prim__nil = nil
-
-    # should eliminate
-    def prim__to__result(x):
-        return x
-
-    # should eliminate
-    def prim__to__any(x):
-        return x
-
-    # should inline
-    def prim__mk__ast(s: str, x: T) -> AST[T]:
-        return AST(s, x)
-
-    # should inline
-    def prim__is__null(x):
-        return x is None
-
-    # should inline
-    def prim__is__not__null(x):
-        return x is not None
-
-    scope = scope or {}
-    scope.update(locals())
-    exec(compile(gencode, filename, "exec"), scope)
-    return scope

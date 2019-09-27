@@ -1,11 +1,14 @@
 import operator
-from rbnf_rts.rbnf_prims import link, Tokens, State
+from rbnf_rts.rbnf_linker import link
+from rbnf_rts.rts import Tokens, State
 from rbnf_rts.lexical import *
 from rbnf_rts.rbnf_api import codegen
 from rbnf_rts.token import Token
 from pathlib import Path
 import ast
 from subprocess import CalledProcessError
+
+from rbnf_rts.unparse import Unparser
 
 grammar_file = "./case2_grammar.rbnf"
 py_file = "./case2_test.py"
@@ -23,7 +26,10 @@ Atom ::= !a=<number>                               -> unwrap(a);
 START  ::= <BOF> !a=Add <EOF>                        -> a;
 """)
 try:
-    codegen((tdir / grammar_file), (tdir / py_file), k=1, inline=False, traceback=True)
+    codegen((tdir / grammar_file), (tdir / py_file),
+            k=1,
+            inline=False,
+            traceback=True)
 except CalledProcessError as e:
     print(e.stderr)
     exit(0)
@@ -63,11 +69,15 @@ def unwrap(x: Token):
     return int(x.value)
 
 
-scope = link(
-    lexicals, gencode, scope=dict(unwrap=unwrap, ArithCall=arith_call), filename=py_file)
+scope = dict(unwrap=unwrap, ArithCall=arith_call)
+# fn = link(lexicals, gencode, requires=scope.keys())
+# with open("run_case2_final_parser.py", 'w') as f:
+#     Unparser(fn, f)
+from run_case2_final_parser import mk_parser
+parse = mk_parser(**scope)
 
 tokens = list(run_lexer("<current file>", "1 * 2 + 3 * 4"))
-got = scope['parse_START'](State(), Tokens(tokens))
+got = parse(State(), Tokens(tokens))
 print(got)
 
 st = State()
@@ -126,7 +136,7 @@ def rbnf_hs(text, t=10000):
         timeit(
             f"""parse_START(None, Tokens(list(run_lexer("current_file", {repr(text)}))))""",
             globals=dict(
-                parse_START=scope['parse_START'],
+                parse_START=parse,
                 Tokens=Tokens,
                 run_lexer=run_lexer,
             ),
@@ -134,13 +144,17 @@ def rbnf_hs(text, t=10000):
 
 
 def rbnf_py(text, t=10000):
-    print(timeit(f"""match({text!r})""", globals=dict(match=f.match), number=t))
+    print(
+        timeit(
+            f"""match({text!r})""",
+            globals=dict(match=f.match),
+            number=t))
 
 
 print(f.match(source).result)
 
 tokens = list(run_lexer("<current file>", source))
-got = scope['parse_START'](State(), Tokens(tokens))
+got = parse(State(), Tokens(tokens))
 print(got)
 
 t = 20000

@@ -1,8 +1,10 @@
 import operator
-from rbnf_rts.rbnf_prims import link, Tokens, State
+from rbnf_rts.rts import Tokens, State
+from rbnf_rts.rbnf_linker import link
 from rbnf_rts.lexical import *
 from rbnf_rts.rbnf_api import codegen
 from rbnf_rts.token import Token
+from rbnf_rts.unparse import Unparser
 from pathlib import Path
 import ast
 from subprocess import CalledProcessError
@@ -49,16 +51,19 @@ def unwrap(x: Token):
     return int(x.value)
 
 
-scope = link(
-    lexicals,
-    gencode,
-    scope=dict(unwrap=unwrap, mul=operator.mul),
-    filename=py_file)
+scope = dict(unwrap=unwrap, mul=operator.mul)
+fn = link(lexicals, gencode, requires=scope.keys())
+
+with open("run_case1_final_parser.py", 'w') as f:
+    Unparser(fn, f)
+
+from run_case1_final_parser import mk_parser
+parse = mk_parser(**scope)
 
 tokens = list(run_lexer("<current file>", "1 * 2 mult 3"))
-got = scope['parse_START'](State(), Tokens(tokens))
+got = parse(State(), Tokens(tokens))
 print(got)
 
 tokens = list(run_lexer("<current file>", "1 * 2 mult 3 mult"))
-got = scope['parse_START'](State(), Tokens(tokens))
+got = parse(State(), Tokens(tokens))
 print(got)

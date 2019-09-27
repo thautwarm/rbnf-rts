@@ -1,10 +1,11 @@
 from prettyprinter import register_pretty, pretty_call, pprint
-from .rbnf_prims import Tokens, AST
+from .rts import Tokens, AST
 
 
 @register_pretty(Tokens)
 def pretty_tokens(value, ctx):
-    return pretty_call(ctx, Tokens, offset=value.offset, array=value.array)
+    return pretty_call(
+        ctx, Tokens, offset=value.offset, array=value.array)
 
 
 @register_pretty(AST)

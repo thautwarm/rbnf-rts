@@ -1,9 +1,10 @@
 import ast
-from rbnf_rts.rbnf_prims import link, Tokens, State
+from rbnf_rts.rts import Tokens, State
+from rbnf_rts.rbnf_linker import link
 from rbnf_rts.utils import ImmutableMap
 from rbnf_rts.lexical import *
 from pathlib import Path
-
+from rbnf.py_tools.unparse import Unparser
 py_file = "./grammar.py"
 
 rev_map = {}
@@ -35,8 +36,15 @@ lexicals, run_lexer = lexer(
     l['^'],
     ignores=['space'],
     reserved_map=ImmutableMap.from_dict(rev_map))
+fn = link(lexicals, gencode, scope=None, filename=py_file)
 
-scope = link(lexicals, gencode, scope=None, filename=py_file)
+with open("linked_parser.py", 'w') as f:
+    Unparser(fn, file=f)
+
+from linked_parser import mk_parser
+parse = mk_parser()
+
+# scope = link(lexicals, gencode, scope=None, filename=py_file)
 
 tokens = list(
     run_lexer(
@@ -48,7 +56,7 @@ module F = {
         | ^a -> 2
 }
 """))
-for e in tokens:
-    print(e)
-got = scope['parse_START'](State(), Tokens(tokens))
-print(got)
+# for e in tokens:
+#     print(e)
+# got = scope['parse_START'](State(), Tokens(tokens))
+print(parse(State(), Tokens(tokens)))

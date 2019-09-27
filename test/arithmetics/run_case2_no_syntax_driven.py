@@ -1,4 +1,4 @@
-from rbnf_rts.rbnf_prims import link, Tokens, State
+from rbnf_rts.rbnf_linker import link, Tokens, State
 from rbnf_rts.lexical import *
 from rbnf_rts.rbnf_api import codegen
 from rbnf_rts.token import Token
