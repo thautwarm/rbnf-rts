@@ -1,6 +1,18 @@
 # rbnf-rts
 Runtime support for generated parsers of RBNF.hs
 
+# More Examples:
+
+Check the `test` directory:
+
+- test
+    - multiply : parser/lexer implementation for multiplications
+    - arith : parser/lexer implementation for arithmetics
+    - relax : parser/lexer implementation for a full-featured programming language
+    - llvmir: parser/lexer implementation for LLVM IR, nearly full-featured
+
+
+
 # Native Dependencies
 
 - The Haskell Stack Toolchain
@@ -67,14 +79,3 @@ Got `(True, -24)`, where `True` indicates the parsing succeeded.
 
 If `False`, a list of errors will be given in the second element of
 the return tuple.
-
-# More Examples:
-
-Check test directory:
-
-```
-- test
-    - multiply : parser/lexer implementation for multiplications
-    - arith : parser/lexer implementation for arithmetics
-    - relax : parser/lexer implementation for a full-featured programming language
-```
