@@ -14,4 +14,4 @@ parse = mk_parser(**scope)
 
 tokens = list(run_lexer("<current file>", "-1 * 2 * (3 * 4)"))
 got = parse(State(), Tokens(tokens))
-print(got)
+assert got == (True, -24)

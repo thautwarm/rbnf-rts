@@ -1,6 +1,12 @@
 
+from rbnf_rts.rbnf_linker import link
+from rbnf_rts.utils import ImmutableMap
+from rbnf_rts.lexical import *
+(_, run_lexer) = lexer(r(number='[+-]?\\d+'), r(space='\\s+'), l['*'], l['/'], l['+'], l['-'], l['('], l[')'], ignores=['space'], reserved_map=ImmutableMap.from_dict({'*': 'quote *', '/': 'quote /', '+': 'quote +', '-': 'quote -', '(': 'quote (', ')': 'quote )'}), numbering={'BOF': 0, 'EOF': 1, 'quote *': 2, 'quote /': 3, 'quote +': 4, 'quote -': 5, 'quote (': 6, 'quote )': 7, 'number': 8, 'space': 9})
 
-def mk_parser(unwrap, ArithCall):
+
+
+def mk_parser(arith, unwrap):
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
 
     def lr_step_Add(_slot_0, prim__state, prim__tokens):
@@ -11,7 +17,7 @@ def mk_parser(unwrap, ArithCall):
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 4):
+            if (lcl_2 == 5):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -29,12 +35,12 @@ def mk_parser(unwrap, ArithCall):
                     lcl_3 = lcl_3
                     _slot_2 = lcl_3
                     Add_rhs_1 = _slot_2
-                    lcl_3 = ArithCall(Add_op_1, Add_lhs_0, Add_rhs_1)
+                    lcl_3 = arith(Add_op_1, Add_lhs_0, Add_rhs_1)
                     _slot_local__1 = lcl_3
                     lcl_3 = (True, _slot_local__1)
                     lcl_2 = lcl_3
                 lcl_1 = lcl_2
-            elif (lcl_2 == 3):
+            elif (lcl_2 == 4):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -52,7 +58,7 @@ def mk_parser(unwrap, ArithCall):
                     lcl_2 = lcl_2
                     _slot_2 = lcl_2
                     Add_rhs_1 = _slot_2
-                    lcl_2 = ArithCall(Add_op_1, Add_lhs_0, Add_rhs_1)
+                    lcl_2 = arith(Add_op_1, Add_lhs_0, Add_rhs_1)
                     _slot_local__1 = lcl_2
                     lcl_2 = (True, _slot_local__1)
                 lcl_1 = lcl_2
@@ -100,7 +106,7 @@ def mk_parser(unwrap, ArithCall):
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 6):
+            if (lcl_2 == 3):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -118,12 +124,12 @@ def mk_parser(unwrap, ArithCall):
                     lcl_3 = lcl_3
                     _slot_2 = lcl_3
                     Mul_rhs_1 = _slot_2
-                    lcl_3 = ArithCall(Mul_op_1, Mul_lhs_0, Mul_rhs_1)
+                    lcl_3 = arith(Mul_op_1, Mul_lhs_0, Mul_rhs_1)
                     _slot_local__1 = lcl_3
                     lcl_3 = (True, _slot_local__1)
                     lcl_2 = lcl_3
                 lcl_1 = lcl_2
-            elif (lcl_2 == 5):
+            elif (lcl_2 == 2):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -141,7 +147,7 @@ def mk_parser(unwrap, ArithCall):
                     lcl_2 = lcl_2
                     _slot_2 = lcl_2
                     Mul_rhs_1 = _slot_2
-                    lcl_2 = ArithCall(Mul_op_1, Mul_lhs_0, Mul_rhs_1)
+                    lcl_2 = arith(Mul_op_1, Mul_lhs_0, Mul_rhs_1)
                     _slot_local__1 = lcl_2
                     lcl_2 = (True, _slot_local__1)
                 lcl_1 = lcl_2
@@ -205,7 +211,7 @@ def mk_parser(unwrap, ArithCall):
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 8):
+            if (lcl_2 == 6):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -222,7 +228,7 @@ def mk_parser(unwrap, ArithCall):
                     lcl_3 = lcl_3
                     _slot_1 = lcl_3
                     Atom_a_1 = _slot_1
-                    lcl_3 = 9
+                    lcl_3 = 7
                     try:
                         _py_local_tk = prim__tokens.array[prim__tokens.offset]
                         if (_py_local_tk.idint is lcl_3):
@@ -245,7 +251,7 @@ def mk_parser(unwrap, ArithCall):
                         lcl_3 = (True, _slot_local__1)
                     lcl_2 = lcl_3
                 lcl_1 = lcl_2
-            elif (lcl_2 == 2):
+            elif (lcl_2 == 8):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)

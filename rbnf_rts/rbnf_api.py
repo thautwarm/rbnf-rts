@@ -78,13 +78,13 @@ traceback: whether to support good error messaging in generated code. With overh
     """
     out_file = Path(out)
     lex_terms_file = out_file.with_suffix(".rlex-terms-tmp")
-    py_parser_file = out_file.with_suffix(".py-tmp")
+    py_parser_tmp_file = out_file.with_suffix(".py-tmp")
 
     assert k > 0
     cmd = [
         "rbnf-pgen", "-in", bnf_filename, "-k",
         str(k), "-out",
-        str(py_parser_file), "-be", "python"
+        str(py_parser_tmp_file), "-be", "python"
     ]
     if traceback:
         print('Using tracebacks')
@@ -99,13 +99,16 @@ traceback: whether to support good error messaging in generated code. With overh
     gen = Generator()
     lexer_ast, parser_ast = gen.gen_from_file(lex_filename,
                                               str(lex_terms_file),
-                                              str(py_parser_file))
+                                              str(py_parser_tmp_file))
     sio = StringIO()
     Unparser(lexer_ast, sio)
     sio.write('\n')
     Unparser(parser_ast, sio)
     with out_file.open('w') as f:
         f.write(sio.getvalue())
+
+    lex_terms_file.unlink()
+    py_parser_tmp_file.unlink()
 
 
 def cli_generate():
