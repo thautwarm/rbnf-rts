@@ -11,6 +11,7 @@ Check the `test` directory:
     - relax : parser/lexer implementation for a full-featured programming language
     - llvmir: parser/lexer implementation for LLVM IR, nearly full-featured
 
+**In each sub-directory of test, you can run tests via directly invoking the test.sh.**, like `cd test/llvmir && bash test.sh`
 
 
 # Native Dependencies
