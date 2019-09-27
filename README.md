@@ -1,7 +1,6 @@
 # rbnf-rts
 Runtime support for generated parsers of RBNF.hs
 
-
 # Native Dependencies
 
 - The Haskell Stack Toolchain
@@ -15,71 +14,56 @@ Runtime support for generated parsers of RBNF.hs
     stack install .
     ```
 
-# Usage
+# Example: Multiplications
 
-Check test directory:
+1. write a `multiply.rbnf` file:
 
-```python
-import operator
-from rbnf_rts.rbnf_prims import link, Tokens, State
-from rbnf_rts.lexical import *
-from rbnf_rts.rbnf_api import codegen
-from rbnf_rts.token import Token
-from pathlib import Path
-import ast
-from subprocess import CalledProcessError
+```
+# 'mul' is a python global which should be marked as 'required' in .rlex
+Mul    : !lhs=Mul "*" !rhs=Atom            -> mul(lhs, rhs);
+Mul    : !a=Atom                           -> a;
+Atom   : "(" !a=Mul ")"                    -> a;
 
-grammar_file = "./case1_grammar.rbnf"
-py_file = "./case1_test.py"
-tdir = "./"
-tdir = Path(tdir)
-with (tdir / grammar_file).open("w") as f:
-    f.write("""
-Mul  ::= !lhs=Mul ("*" | "mult") !rhs=Atom -> mul(lhs, rhs);
-Mul  ::= !a=Atom                           -> a;
-Atom ::= "(" !a=Mul ")"                    -> a;
-Atom ::= !a=<number>                       -> unwrap(a);
-
+# 'unwrap' should be marked as 'required', just as 'mul'
+Atom   : !a=<number>                       -> unwrap(a);
 START ::= <BOF> !a=Mul <EOF>               -> a;
-""")
-try:
-    codegen((tdir / grammar_file), (tdir / py_file),
-            k=1,
-            inline=False,
-            traceback=True)
-except CalledProcessError as e:
-    print(e.stderr)
-    exit(0)
-    raise Exception
+```
 
-with (tdir / py_file).open('r') as f:
-    code = f.read()
+2. write a `multiply.rlex` file:
+```
+%require mul
+%require unwrap
+%ignore space
+number [+-]?\d+
+space \s+
+```
 
-gencode = ast.parse(code)
+3. codegen
 
-lexicals, run_lexer = lexer(
-    r(number='\d+'),
-    l["mult"],
-    l["*"],
-    l(space=" "),
-    l['('],
-    l[')'],
-    ignores=['space'])
+```shell
+sh> rbnf-pygen multiply.rbnf multiply.rlex multiply.py --k 1 --traceback
+```
 
+4. run statically-generated parsers and lexers and enjoy its efficiency
+```python
+from rbnf_rts.rts import Tokens, State
+from multiply import run_lexer, mk_parser
+import operator
 
 def unwrap(x: Token):
     return int(x.value)
 
+scope = dict(mul=operator.mul, unwrap=unwrap)
 
-scope = link(
-    lexicals,
-    gencode,
-    scope=dict(unwrap=unwrap, mul=operator.mul),
-    filename=py_file)
+parse = mk_parser(**scope)
 
-tokens = list(run_lexer("<current file>", "1 * 2 * (3 * 4)"))
-got = scope['parse_START'](State(), Tokens(tokens))
+
+tokens = list(run_lexer("<current file>", "-1 * 2 * (3 * 4)"))
+got = parse(State(), Tokens(tokens))
 print(got)
 ```
 
-Got `(True, 24)`, where `True` indicates the parsing succeeded.
+Got `(True, -24)`, where `True` indicates the parsing succeeded.
+
+If `False`, a list of errors will be given in the second element of
+the return tuple.

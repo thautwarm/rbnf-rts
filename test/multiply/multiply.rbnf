@@ -1,0 +1,10 @@
+# 'mul' is a python global which should be marked as 'required' in .rlex
+Mul    : !lhs=Mul "*" !rhs=Atom            -> mul(lhs, rhs);
+Mul    : !a=Atom                           -> a;
+Atom   : "(" !a=Mul ")"                    -> a;
+
+# 'unwrap' should be marked as 'required', just as 'mul'
+Atom   : !a=<number>                       -> unwrap(a);
+
+
+START ::= <BOF> !a=Mul <EOF>               -> a;
