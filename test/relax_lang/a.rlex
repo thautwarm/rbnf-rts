@@ -1,0 +1,5 @@
+%ignore space
+number [-+]?[0-9]+(\.[eE][-+]?\d+)?
+space \s
+identifier [a-zA-Z_]{1}[a-zA-Z_0-9]*
+str "([^\\"]+|\\.)*?"

@@ -74,8 +74,9 @@ def macro_stmt(template: str, ret: Optional[str]):
     return stor
 
 
-def link(lexicals: Dict[str, int], genast: ast.Module,
-         requires: Optional[Iterable[str]]):
+def link(lexicals: Dict[str, int],
+         genast: ast.Module,
+         requires: Optional[Iterable[str]] = None):
     requires = requires or ()
     if max(lexicals.values()) > 254:
         raise ValueError("Too many lexical names!(exceed 254)")
@@ -168,7 +169,7 @@ def mk_parser({', '.join(requires)}):
     fn.body.extend(genast.body)
     fn.body.append(ast.Return(ast.Name("parse_START", ast.Load())))
     ast.fix_missing_locations(fn)
-    return fn
+    return imp
 
 
 class Optimizer(ast.NodeTransformer):

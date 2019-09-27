@@ -61,7 +61,8 @@ class LiteralLexerDescriptor(LexerDescriptor):
         return typeid, lex
 
 
-def lexer_reduce(lexer_descriptors: t.List[LexerDescriptor]) -> t.List[LexerDescriptor]:
+def lexer_reduce(lexer_descriptors: t.List[LexerDescriptor]
+                 ) -> t.List[LexerDescriptor]:
 
     def _chunk(stream: t.Iterable[LexerDescriptor]):
         grouped = []
@@ -92,14 +93,16 @@ def lexer_reduce(lexer_descriptors: t.List[LexerDescriptor]) -> t.List[LexerDesc
         else:
             assert lexer_type is LiteralLexerDescriptor
             descriptors: t.List[LiteralLexerDescriptor]
-            contents = sum(tuple(each.contents for each in descriptors), ())
+            contents = sum(
+                tuple(each.contents for each in descriptors), ())
 
             ret.append(LiteralLexerDescriptor(typeid, *contents))
 
     return ret
 
 
-def lexing(filename: str, text: str, lexer_table: list, reserved_map: dict):
+def lexing(filename: str, text: str, lexer_table: list,
+           reserved_map: dict):
     text_length = len(text)
     colno = 0
     lineno = 0
@@ -118,9 +121,11 @@ def lexing(filename: str, text: str, lexer_table: list, reserved_map: dict):
             pat = origin_word
             casted_typeid = reserved_map.get(pat)
             if casted_typeid is None:
-                yield Token(pos, lineno, colno, filename, typeid, origin_word)
+                yield Token(pos, lineno, colno, filename, typeid,
+                            origin_word)
             else:
-                yield Token(pos, lineno, colno, filename, casted_typeid, origin_word)
+                yield Token(pos, lineno, colno, filename, casted_typeid,
+                            origin_word)
             n = len(pat)
             line_inc = pat.count(newline)
             if line_inc:
@@ -160,7 +165,8 @@ def lexing_no_reverse(filename: str, text: str, lexer_table: list):
             if origin_word is None:
                 continue
             pat = origin_word
-            yield Token(pos, lineno, colno, filename, typeid, origin_word)
+            yield Token(pos, lineno, colno, filename, typeid,
+                        origin_word)
 
             n = len(pat)
             line_inc = pat.count(newline)
@@ -214,8 +220,9 @@ l: Builder[str, t.Tuple[str, str]] = Builder(
 
 def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]],
           ignores=(),
-          reserved_map: ImmutableMap[str, str] = ImmutableMap(())):
-    numbering = Numbering()
+          reserved_map: ImmutableMap[str, str] = ImmutableMap(()),
+          numbering=None):
+    numbering = numbering or Numbering()
     BOF = numbering["BOF"]
     EOF = numbering["EOF"]
     sublexers = []
@@ -241,7 +248,8 @@ def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]],
 
             def run_lexer(filename: str, text: str):
                 yield Token(0, 0, 0, filename, BOF, "")
-                yield from (token for token in lexing(filename, text, table, reserved_map)
+                yield from (token for token in lexing(
+                    filename, text, table, reserved_map)
                             if token.idint not in ignores)
                 yield Token(0, 0, 0, filename, EOF, "")
 
@@ -257,7 +265,8 @@ def lexer(*subrules: t.Tuple[str, t.Union[re.Pattern, str]],
 
             def run_lexer(filename: str, text: str):
                 yield Token(0, 0, 0, filename, BOF, "")
-                yield from (token for token in lexing_no_reverse(filename, text, table)
+                yield from (token for token in lexing_no_reverse(
+                    filename, text, table)
                             if token.idint not in ignores)
                 yield Token(0, 0, 0, filename, EOF, "")
 

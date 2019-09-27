@@ -22,7 +22,8 @@ setup(
         "console_scripts":
             [
              "rbnf-dump-graph=rbnf_rts.rbnf_api:cli_dump_graph",
-             "rbnf-view-graph=rbnf_rts.rbnf_api:cli_view_graph"
+             "rbnf-view-graph=rbnf_rts.rbnf_api:cli_view_graph",
+             "rbnf-pygen=rbnf_rts.rbnf_api:cli_generate"
             ]
     },
     # above option specifies commands to be installed,
