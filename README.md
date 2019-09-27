@@ -1,7 +1,7 @@
 # rbnf-rts
 Runtime support for generated parsers of RBNF.hs
 
-# More Examples:
+# More Examples
 
 Check the `test` directory:
 
