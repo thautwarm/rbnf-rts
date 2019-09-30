@@ -90,7 +90,8 @@ class Generator:
 from rbnf_rts.rbnf_linker import link
 from rbnf_rts.utils import ImmutableMap
 from rbnf_rts.lexical import *
-_, run_lexer = lexer(
+__all__ = ['lexicals', 'run_lexer', 'mk_parser']
+lexicals, run_lexer = lexer(
 {arg_str}
 )
 """
