@@ -62,7 +62,7 @@ class Generator:
         self._reserved_from_source(lexer_term_src)
         numbering = {'BOF': 0, 'EOF': 1}
 
-        lits = []
+        lits = set()
         for literal, quote in self._reserved_map.items():
             numbering[quote] = len(numbering)
             for _, _, regex in self._regexps:
@@ -70,12 +70,13 @@ class Generator:
                     break
             else:
                 # literal cannot be tokenized by current regex rules.
-                lits.append((literal, quote))
+                lits.add((literal, quote))
         args = []
         for name, rule, _ in self._regexps:
             args.append(f'r({name}={rule!r})')
             numbering[name] = len(numbering)
-        for lit, quote in lits:
+        for lit, quote in sorted(
+                lits, key=lambda k: k[0], reverse=True):
             args.append(f'l[{lit!r}]')
         if self._ignores:
             args.append(f'ignores={self._ignores}')

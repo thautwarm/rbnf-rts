@@ -5,7 +5,7 @@ parse = mk_parser()
 tokens = list(
     run_lexer(
         "<current file>", """
-* -> *
+* ** * ** *
         """))
 
 print(lexicals)

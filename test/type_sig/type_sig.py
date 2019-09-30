@@ -4,7 +4,7 @@ from rbnf_rts.rbnf_linker import link
 from rbnf_rts.utils import ImmutableMap
 from rbnf_rts.lexical import *
 __all__ = ['lexicals', 'run_lexer', 'mk_parser']
-(lexicals, run_lexer) = lexer(r(space='\\s'), l['->'], l['*'], ignores=['space'], reserved_map=ImmutableMap.from_dict({'->': 'quote ->', '*': 'quote *'}), numbering={'BOF': 0, 'EOF': 1, 'quote ->': 2, 'quote *': 3, 'space': 4})
+(lexicals, run_lexer) = lexer(r(space='\\s'), l['**'], l['*'], ignores=['space'], reserved_map=ImmutableMap.from_dict({'*': 'quote *', '**': 'quote **'}), numbering={'BOF': 0, 'EOF': 1, 'quote *': 2, 'quote **': 3, 'space': 4})
 
 
 
@@ -50,7 +50,7 @@ def mk_parser():
         return lr_TypeApp_reduce
 
     def parse_LitType(prim__state, prim__tokens):
-        lcl_0 = 3
+        lcl_0 = 2
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -183,7 +183,7 @@ def mk_parser():
             if lcl_0:
                 lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
                 lcl_2 = lcl_2.idint
-                if (lcl_2 == 2):
+                if (lcl_2 == 3):
                     _py_local_i = prim__tokens.offset
                     _py_local_t = prim__tokens.array[_py_local_i]
                     prim__tokens.offset = (_py_local_i + 1)

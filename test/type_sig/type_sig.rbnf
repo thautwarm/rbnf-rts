@@ -1,6 +1,6 @@
 START : <BOF> Type <EOF>;
 
 Type         : TypeArrow;
-TypeArrow    : TypeApp ['->' TypeArrow];
-TypeApp      : [TypeApp] LitType;
 LitType      : '*';
+TypeArrow    : TypeApp ['**' TypeArrow];
+TypeApp      : [TypeApp] LitType;
