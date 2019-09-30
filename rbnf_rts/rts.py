@@ -89,6 +89,7 @@ class Cons:
         while n != 0:
             # noinspection PyMethodFirstArgAssignment
             self = self.tail
+            n -= 1
         return self.head
 
     def __repr__(self):
