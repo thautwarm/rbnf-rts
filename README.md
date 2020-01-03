@@ -3,8 +3,7 @@ Runtime support for generated parsers of RBNF.hs
 
 P.S: `rbnf-rts` is the new fastest Python parser generator, according to the benchmark given by,
 
-
-![Bench]()
+![Bench](https://raw.githubusercontent.com/thautwarm/static-resources/master/rbnf/fast2020-nb.PNG)
 
 
 # More Examples
@@ -16,6 +15,7 @@ Check the `test` directory:
     - arith : parser/lexer implementation for arithmetics
     - relax : parser/lexer implementation for a full-featured programming language
     - llvmir: parser/lexer implementation for LLVM IR, nearly full-featured
+    - rbnfjson: a json parser implemented by RBNF.hs and rbnf-rts
 
 **In each sub-directory of test, you can run tests via directly invoking the test.sh.**, like `cd test/llvmir && bash test.sh`
 
