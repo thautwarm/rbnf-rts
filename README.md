@@ -1,12 +1,21 @@
 # rbnf-rts
 Runtime support for generated parsers of RBNF.hs
 
-P.S: `rbnf-rts` is the new fastest Python parser generator, according to the benchmark given by,
+**P.S**:
+
+`rbnf-rts` is the new fastest Python parser generator by 2020, according to a benchmark given by [benchmark-json](https://github.com/thautwarm/rbnf-rts/blob/master/test/benchmark-json.ipynb).
 
 ![Bench](https://raw.githubusercontent.com/thautwarm/static-resources/master/rbnf/fast2020-nb.PNG)
 
+## Features
 
-# More Examples
+- Syntax-driven
+- Left recursion with LL parsing(yes, left recur in LL, it's right)
+- Statically generated(no need to create the parser again and again when starting your application)
+- Good error reports(including the position and nested rule names of parsing error)
+- RBNF.hs is language independent
+
+## More Examples
 
 Check the `test` directory:
 
@@ -20,7 +29,7 @@ Check the `test` directory:
 **In each sub-directory of test, you can run tests via directly invoking the test.sh.**, like `cd test/llvmir && bash test.sh`
 
 
-# Native Dependencies
+## Native Dependencies
 
 - The Haskell Stack Toolchain
 
@@ -33,7 +42,7 @@ Check the `test` directory:
     stack install .
     ```
 
-# Example: Multiplications
+## Example: Multiplications
 
 1. write a `multiply.rbnf` file:
 
