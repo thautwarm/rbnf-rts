@@ -11,9 +11,12 @@ Runtime support for generated parsers of RBNF.hs
 
 - Syntax-driven
 - Left recursion with LL parsing(yes, left recur in LL, it's right)
+- Grammar inline optimizations
+- Smarter lookahead via ID3 algorithm
 - Statically generated(no need to create the parser again and again when starting your application)
 - Good error reports(including the position and nested rule names of parsing error)
 - RBNF.hs is language independent
+- \[WIP\]: context sensitive parsing as an extension to CFG
 
 ## More Examples
 
