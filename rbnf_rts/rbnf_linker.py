@@ -43,7 +43,6 @@ def macro_exp(template: str):
     node = exp.value
 
     def stor(f):
-
         def perform_subst(*args):
             return f(*args)(node)
 
@@ -61,7 +60,6 @@ def macro_stmt(template: str, ret: Optional[str]):
     stmt = template
 
     def stor(f):
-
         def perform_subst(lhs, *args):
             mod: ast.Module = f(*args)(stmt)
             body = mod.body
@@ -74,13 +72,29 @@ def macro_stmt(template: str, ret: Optional[str]):
     return stor
 
 
-def link(lexicals: Dict[str, int],
-         genast: ast.Module,
-         requires: Optional[Iterable[str]] = None):
+def link(lexicals: Dict[str, int], genast: ast.Module, requires: Optional[Iterable[str]] = None):
     requires = requires or ()
     if max(lexicals.values()) > 254:
         raise ValueError("Too many lexical names!(exceed 254)")
     opt = Optimizer()
+
+    @opt.register
+    @macro_exp("a.value")
+    def TheValueOf(a):
+        return subst(a=a)
+
+    @opt.register
+    @macro_exp("lcl")
+    def TheElt(n):
+        assert isinstance(n, ast.Name)
+        assert n.id.startswith("num")
+        n.id = "_slot_{}".format(int(n.id[3:]))
+        return subst(lcl=n)
+
+    @opt.register
+    @macro_exp("n")
+    def TheTuple(*args):
+        return subst(n=ast.Tuple(elts=list(args), ctx=ast.Load()))
 
     @opt.register
     @macro_exp("a is b")
@@ -98,13 +112,11 @@ def link(lexicals: Dict[str, int],
         return subst(tokens=tokens, i=i)
 
     @opt.register
-    @macro_stmt(
-        """
+    @macro_stmt("""
 _py_local_i = tokens.offset
 _py_local_t = tokens.array[_py_local_i]
 tokens.offset = _py_local_i + 1
-    """,
-        ret="_py_local_t")
+    """, ret="_py_local_t")
     def prim__mv__forward(tokens):
         return subst(tokens=tokens)
 
@@ -188,8 +200,7 @@ class Optimizer(ast.NodeTransformer):
         lhs = node.targets
         rhs = node.value
         if isinstance(rhs, ast.Call):
-            if isinstance(rhs.func,
-                          ast.Name) and rhs.func.id in self.stmts:
+            if isinstance(rhs.func, ast.Name) and rhs.func.id in self.stmts:
                 macro = self.stmts[rhs.func.id]
                 return macro.f(lhs, *rhs.args)
         return self.generic_visit(node)
@@ -197,8 +208,7 @@ class Optimizer(ast.NodeTransformer):
     def visit_Expr(self, node: ast.Expr):
         if isinstance(node.value, ast.Call):
             call = node.value
-            if isinstance(call.func,
-                          ast.Name) and call.func.id in self.stmts:
+            if isinstance(call.func, ast.Name) and call.func.id in self.stmts:
                 macro = self.stmts[call.func.id]
                 return macro.f(None, *call.args)
         return self.generic_visit(node)
