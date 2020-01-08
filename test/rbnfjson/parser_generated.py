@@ -10,6 +10,7 @@ __all__ = ['lexicals', 'run_lexer', 'mk_parser']
 
 def mk_parser(DQString):
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
+    DQString = DQString
 
     def lr_step_rbnf__sep__list__0(_slot_0, prim__state, prim__tokens):
         lcl_0 = 2

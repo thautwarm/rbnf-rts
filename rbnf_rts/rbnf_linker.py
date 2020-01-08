@@ -196,10 +196,11 @@ except IndexError:
         return subst(x=x)
 
     genast: ast.Module = opt.visit(genast)
-    mangling = '\n    '.join('{} = {}'.format(mangle(req), req) for req in requires)
+    mangling = '\n    '.join('{} = {}'.format(mangle(req), req) for req in requires if mangle(req) != req)
     imp: ast.Module = ast.parse(f"""
 def mk_parser({', '.join(requires)}):
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
+    {mangling}
 """)
     fn: ast.FunctionDef = imp.body[0]
     fn.body.extend(genast.body)

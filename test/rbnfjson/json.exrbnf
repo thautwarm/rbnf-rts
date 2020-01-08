@@ -6,10 +6,10 @@ value: <ESCAPED_STRING> { DQString(*$0) }
      | "true" { True }
      | "null" { None }
      | "false" { False }
-
+     # array
      | '[' ']' {[]}
      | '[' separated_list(',', value) ']' { $1 }
-
+     # object
      | '{' '}' { dict() }
      | '{' separated_list(',', pair) '}' { dict($1) }
      ;

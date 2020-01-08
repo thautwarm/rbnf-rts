@@ -61,7 +61,7 @@ def cli_view_graph():
     wise(view_parsing_graph)(sys.argv[1:])
 
 
-comment = re.compile(r"#.*?$")
+comment = re.compile(r"#[^\n\r]*")
 
 
 def generate(bnf_filename: str,
