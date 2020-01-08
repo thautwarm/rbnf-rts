@@ -1,6 +1,5 @@
 START: <BOF> !a=value <EOF> -> a;
 
-
 value: array -> LRCommaSurroundedList(TheElt(num0));
 value: object -> dict(LRCommaSurroundedList(TheElt(num0)));
 
@@ -13,10 +12,9 @@ value: "true" -> True;
 value: "null" -> None;
 value: "false" -> False;
 
-
-arrayElts : [arrayElts ','] value;
-array  : "[" [arrayElts] "]";
+array  : "[" [separated_list(',', value)] "]";
 objectElts: [objectElts ','] pair;
-object : "{" [objectElts] "}";
+object : "{" [separated_list(',', pair)] "}";
+
 pair   : <ESCAPED_STRING> ":" value ->
     TheTuple(DQString(TheElt(num0)), TheElt(num2));

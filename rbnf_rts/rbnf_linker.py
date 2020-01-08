@@ -5,6 +5,10 @@ import copy
 T = TypeVar('T')
 
 
+def mangle(x: str):
+    return x.replace('_', '__')
+
+
 class Substitute(ast.NodeTransformer):
 
     def __init__(self, m: dict):
@@ -43,6 +47,7 @@ def macro_exp(template: str):
     node = exp.value
 
     def stor(f):
+
         def perform_subst(*args):
             return f(*args)(node)
 
@@ -60,6 +65,7 @@ def macro_stmt(template: str, ret: Optional[str]):
     stmt = template
 
     def stor(f):
+
         def perform_subst(lhs, *args):
             mod: ast.Module = f(*args)(stmt)
             body = mod.body
@@ -72,7 +78,9 @@ def macro_stmt(template: str, ret: Optional[str]):
     return stor
 
 
-def link(lexicals: Dict[str, int], genast: ast.Module, requires: Optional[Iterable[str]] = None):
+def link(lexicals: Dict[str, int],
+         genast: ast.Module,
+         requires: Optional[Iterable[str]] = None):
     requires = requires or ()
     if max(lexicals.values()) > 254:
         raise ValueError("Too many lexical names!(exceed 254)")
@@ -105,7 +113,8 @@ def link(lexicals: Dict[str, int], genast: ast.Module, requires: Optional[Iterab
     @macro_stmt("""
 _py_local_i = a
 _py_local_t.append(b)
-        """, ret="_py_local_t")
+        """,
+                ret="_py_local_t")
     def RBNFappend(a, b):
         return subst(a=a, b=b)
 
@@ -134,7 +143,8 @@ _py_local_t.append(b)
 _py_local_i = tokens.offset
 _py_local_t = tokens.array[_py_local_i]
 tokens.offset = _py_local_i + 1
-    """, ret="_py_local_t")
+    """,
+                ret="_py_local_t")
     def prim__mv__forward(tokens):
         return subst(tokens=tokens)
 
@@ -191,8 +201,10 @@ except IndexError:
         return subst(x=x)
 
     genast: ast.Module = opt.visit(genast)
+    mangling = '    \n'.join('{} = {}'.format(mangle(req), req) for req in requires)
     imp: ast.Module = ast.parse(f"""
 def mk_parser({', '.join(requires)}):
+    {mangling}
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
 """)
     fn: ast.FunctionDef = imp.body[0]
@@ -218,7 +230,8 @@ class Optimizer(ast.NodeTransformer):
         lhs = node.targets
         rhs = node.value
         if isinstance(rhs, ast.Call):
-            if isinstance(rhs.func, ast.Name) and rhs.func.id in self.stmts:
+            if isinstance(rhs.func,
+                          ast.Name) and rhs.func.id in self.stmts:
                 macro = self.stmts[rhs.func.id]
                 return macro.f(lhs, *rhs.args)
         return self.generic_visit(node)
@@ -226,7 +239,8 @@ class Optimizer(ast.NodeTransformer):
     def visit_Expr(self, node: ast.Expr):
         if isinstance(node.value, ast.Call):
             call = node.value
-            if isinstance(call.func, ast.Name) and call.func.id in self.stmts:
+            if isinstance(call.func,
+                          ast.Name) and call.func.id in self.stmts:
                 macro = self.stmts[call.func.id]
                 return macro.f(None, *call.args)
         return self.generic_visit(node)

@@ -30,6 +30,9 @@ action : '(' ')'            -> mktuple();
 action : '(' !a=actions ')' -> mktuple(a);
 action : !f=action !args=args -> call(f, args);
 
+action : '$' !a=action        -> ith(a);
+action : '*' !a=action        -> spelling(value);
+
 args   : '(' ')' -> empty;
 args   : '(' !args=actions ')' -> args;
 

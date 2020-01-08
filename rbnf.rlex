@@ -22,6 +22,8 @@ Term <.*>
 %require prod
 %require alt
 %require newscope
+%require ith
+%require spelling
 
 %require symbol
 %require integer

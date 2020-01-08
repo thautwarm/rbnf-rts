@@ -70,8 +70,8 @@ traceback: whether to support good error messaging in generated code. With overh
     py_parser_tmp_file = out_file.with_suffix(".py-tmp")
     to_remove.append(py_parser_tmp_file)
 
-    if not bnf_filename.endswith('.exrbnf'):
-        from rbnf_rts.rbnfpp import parse
+    if bnf_filename.endswith('.exrbnf'):
+        from rbnf_rts.exrbnf_parser import parse
         with open(bnf_filename) as f:
             source = f.read()
             haskell_rbnf_source = parse(source, bnf_filename)

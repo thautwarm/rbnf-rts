@@ -17,10 +17,6 @@ def singleton(x):
     return cons(x, empty)
 
 
-def mangle(x: str):
-    return x.replace('_', '__')
-
-
 class Parser:
     def __init__(self):
         self.generative_nonterm = {}
@@ -112,3 +108,9 @@ class Parser:
     def newscope(self, x):
         self.locals = Numberer()
         return x
+
+    def ith(self, i):
+        return 'RBNFelt({})'.format(i)
+
+    def spelling(self, s):
+        return 'RBNFvalueof({})'.format(s)
