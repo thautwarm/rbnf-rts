@@ -1,0 +1,28 @@
+atom : !a=<QuotedStr> -> terminal(DQString(a));
+atom :
+     | <Term>
+     | <Ident>
+     | '(' expr ')'
+     | '[' expr ']'
+     | 'list' '(' expr ')'
+     | 'separated_list' '(' expr ',' expr ')'
+     ;
+
+
+seq : [seq] atom;
+expr : [expr '|'] seq;
+rewrite : expr ['{' action '}'];
+alts : [alts '|'] rewrite;
+prod : <Ident> (':' | '::=') ['|'] alts ';';
+
+
+actions : [actions ','] action;
+
+action : <Ident>
+       | <Int>
+       | action '(' [actions] ')'
+       ;
+
+prods : [prods] prod;
+
+START : <BOF> prods <EOF>;

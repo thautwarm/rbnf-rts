@@ -1,0 +1,41 @@
+atom : !a=<QuotedStr> -> literal(DQString(a));
+atom : !a=<Term>      -> terminal(DQString(a));
+atom : !a=<Ident>     -> nonterm(DQString(a));
+atom : '(' !a=expr ')' -> a;
+atom : '[' !a=expr ']' -> optional(a);
+atom : 'list' '(' !a=expr ')' -> list(a);
+atom : 'separated_list' '(' !a=expr ',' !b=expr ')' -> seplist(a, b);
+atom : !a=<Ident> '=' !b=atom -> alias(DQString(a), b);
+
+
+seq : !a=atom -> singleton(a);
+
+
+atom : !a=<QuotedStr> -> terminal(DQString(a));
+atom :
+     | <Term>
+     | <Ident>
+     | '(' expr ')'
+     | '[' expr ']'
+     | 'list' '(' expr ')'
+     | 'separated_list' '(' expr ',' expr ')'
+     ;
+
+
+seq : [seq] atom;
+expr : [expr '|'] seq;
+rewrite : expr ['{' action '}'];
+alts : [alts '|'] rewrite;
+prod : <Ident> (':' | '::=') ['|'] alts ';';
+
+
+actions : [actions ','] action;
+
+action : <Ident>
+       | <Int>
+       | action '(' [actions] ')'
+       ;
+
+prods : [prods] prod;
+
+START : <BOF> prods <EOF>;
