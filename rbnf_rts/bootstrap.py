@@ -47,7 +47,7 @@ class Parser:
             n = len(self.generative_nonterm)
             n = 'rbnf_list_{}'.format(n)
             self.generative_nonterm[key] = n
-            self.prods.append('{} : {} -> {}'.format(n, x, 'RBNFsingleton(RBNFelt(RBNFint0))'))
+            self.prods.append('{} : {} -> {}'.format(n, x, 'RBNFlist(RBNFelt(RBNFint0))'))
             self.prods.append('{} : {} {} -> {}'.format(n, n, x, "RBNFappend(RBNFelt(RBNFint0), RBNFelt(RBNFint1))"))
 
         return n
@@ -57,15 +57,16 @@ class Parser:
         key = ('separated_list', a, b)
         n = self.generative_nonterm.get(key, None)
         if n is None:
-            n  = len(self.generative_nonterm)
+            n = len(self.generative_nonterm)
             n = 'rbnf_sep_list_{}'.format(n)
             self.generative_nonterm[key] = n
-            self.prods.append('{} : {} -> {}'.format(n, b, 'RBNFsingleton(RBNFelt(RBNFint0))'))
+            self.prods.append('{} : {} -> {}'.format(n, b, 'RBNFlist(RBNFelt(RBNFint0))'))
             self.prods.append(
                     '{} : {} {} {} -> {}'.format(n, n, a, b, "RBNFappend(RBNFelt(RBNFint0), RBNFelt(RBNFint2))"))
         return n
 
     def alias(self, n: Token, s):
+        print('aaa')
         return '!auto{}={}'.format(self.locals[n.value], s)
 
     def seq(self, xs):
@@ -83,9 +84,17 @@ class Parser:
             else:
                 self.prods.append('{} : {}'.format(n, each))
 
-
+    @classmethod
     def mktuple(self, x=()):
         return 'RBNFtuple({})'.format(', '.join(x))
+
+    def tupletail(self, tl):
+        if tl is None:
+            return lambda x: x
+        return lambda hd: Parser.mktuple(cons(hd, tl))
+
+    def mklist(self, x=()):
+        return 'RBNFlist({})'.format(', '.join(x))
 
     def symbol(self, x: Token):
         n = x.value
@@ -93,8 +102,6 @@ class Parser:
         if isinstance(n, int):
             n = 'auto{}'.format(n)
         return n
-
-
 
     def integer(self, x: Token):
         return 'RBNFint{}'.format(x.value)

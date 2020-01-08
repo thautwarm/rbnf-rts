@@ -87,16 +87,6 @@ def link(lexicals: Dict[str, int],
     opt = Optimizer()
 
     @opt.register
-    @macro_exp("[]")
-    def RBNFempty():
-        return subst()
-
-    @opt.register
-    @macro_exp("[a]")
-    def RBNFsingleton(a):
-        return subst(a=a)
-
-    @opt.register
     @macro_exp("a.value")
     def RBNFvalueof(a):
         return subst(a=a)
@@ -111,7 +101,7 @@ def link(lexicals: Dict[str, int],
 
     @opt.register
     @macro_stmt("""
-_py_local_i = a
+_py_local_t = a
 _py_local_t.append(b)
         """,
                 ret="_py_local_t")
@@ -122,6 +112,11 @@ _py_local_t.append(b)
     @macro_exp("n")
     def RBNFtuple(*args):
         return subst(n=ast.Tuple(elts=list(args), ctx=ast.Load()))
+
+    @opt.register
+    @macro_exp("n")
+    def RBNFlist(*args):
+        return subst(n=ast.List(elts=list(args), ctx=ast.Load()))
 
     @opt.register
     @macro_exp("a is b")
@@ -201,10 +196,9 @@ except IndexError:
         return subst(x=x)
 
     genast: ast.Module = opt.visit(genast)
-    mangling = '    \n'.join('{} = {}'.format(mangle(req), req) for req in requires)
+    mangling = '\n    '.join('{} = {}'.format(mangle(req), req) for req in requires)
     imp: ast.Module = ast.parse(f"""
 def mk_parser({', '.join(requires)}):
-    {mangling}
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
 """)
     fn: ast.FunctionDef = imp.body[0]

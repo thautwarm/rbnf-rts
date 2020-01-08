@@ -54,9 +54,9 @@ def LRCommaSurroundedList(x: AST):
     return LRCommaList(x[1])
 
 
-def DQString(x: Token, f=py_scanstring):
+def DQString(x, f=py_scanstring):
     """from the raw form of a double quoted string to a python string,
     e.g.,
         dqstring('"asd"') == "asd"
     """
-    return f(x.value, 1)[0]
+    return f(x, 1)[0]

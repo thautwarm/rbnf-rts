@@ -1,0 +1,16 @@
+START: <BOF> value <EOF> { $1 };
+
+value: <ESCAPED_STRING> { DQString(*$0) }
+     | <SIGNED_INT>     { int(*$0) }
+     | <SIGNED_FLOAT>   { float(*$0) }
+     | "true" { True }
+     | "null" { None }
+     | "false" { False }
+
+     | '[' ']' {[]}
+     | '[' separated_list(',', value) ']' { $1 }
+
+     | '{' '}' { dict() }
+     | '{' separated_list(',', pair) '}' { dict($1) }
+     ;
+pair   : <ESCAPED_STRING> ":" value { (DQString(*$0), $2) };

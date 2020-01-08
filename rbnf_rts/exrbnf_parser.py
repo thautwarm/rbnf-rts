@@ -26,7 +26,11 @@ def parse(text: str, filename: str = "unknown"):
                        call=p.call,
                        mktuple=p.mktuple,
                        alt=p.alt,
-                       newscope=p.newscope)
+                       newscope=p.newscope,
+                       ith=p.ith,
+                       spelling=p.spelling,
+                       mklist=p.mklist,
+                       tupletail=p.tupletail)
     tokens = list(run_lexer(filename, text))
     res = _parse(State(), Tokens(tokens))
     if res[0]:
@@ -44,3 +48,5 @@ def parse(text: str, filename: str = "unknown"):
         colno = token.colno
         msgs.append(f"Line {lineno}, column {colno}, {msg}")
     raise SyntaxError(f"Filename {filename}:\n" + "\n".join(msgs))
+
+
