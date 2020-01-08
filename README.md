@@ -47,7 +47,20 @@ Check the `test` directory:
 
 ## Example: Multiplications
 
-1. write a `multiply.rbnf` file:
+1. write a `multiply.exrbnf` file
+
+```
+# 'mul' is a python global which should be marked as 'required' in .rlex
+Mul    : lhs=Mul "*" rhs=Atom { mul(lhs, rhs) }
+       | a=Atom  {a}
+       ;
+
+# 'unwrap' should be marked as 'required', just as 'mul'
+Atom   :  "(" !a=Mul ")"  {a} ;
+       |  <number>        { unwrap($0) };
+START ::= <BOF> Mul <EOF> { $1 };
+```
+or write a `multiply.rbnf` file:
 
 ```
 # 'mul' is a python global which should be marked as 'required' in .rlex
@@ -98,3 +111,27 @@ Got `(True, -24)`, where `True` indicates the parsing succeeded.
 
 If `False`, a list of errors will be given in the second element of
 the return tuple.
+
+5. [Menhir](http://gallium.inria.fr/~fpottier/menhir/)-like syntax sugars including `list` and `separated_list`.
+
+A json parser more than 20% efficient than that of lark-parser(lol), written as a `.exrbnf` file. 
+```
+START: <BOF> value <EOF> { $1 };
+
+value: <ESCAPED_STRING> { DQString(*$0) }
+     | <SIGNED_INT>     { int(*$0) }
+     | <SIGNED_FLOAT>   { float(*$0) }
+     | "true" { True }
+     | "null" { None }
+     | "false" { False }
+     # array
+     | '[' ']' {[]}
+     | '[' separated_list(',', value) ']' { $1 }
+     # object
+     | '{' '}' { dict() }
+     | '{' separated_list(',', pair) '}' { dict($1) }
+     ;
+pair   : <ESCAPED_STRING> ":" value { (DQString(*$0), $2) };
+```
+
+Check [rbnfjson](https://github.com/thautwarm/rbnf-rts/tree/master/test/rbnfjson) for more information.
