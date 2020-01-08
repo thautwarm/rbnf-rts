@@ -11,3 +11,6 @@ cd ..
 
 cd llvmir && bash test.sh
 cd ..
+
+cd rbnfjson && bash test.sh
+cd ..
