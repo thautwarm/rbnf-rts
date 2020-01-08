@@ -7,7 +7,7 @@ with Path('README.md').open() as readme:
 
 setup(
     name='rbnf-rts',
-    version="0.42",
+    version="0.5",
     keywords="", # keywords of your project that separated by comma ","
     description="", # a conceise introduction of your project
     long_description=readme,
