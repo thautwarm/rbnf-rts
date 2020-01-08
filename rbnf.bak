@@ -39,3 +39,22 @@ action : <Ident>
 prods : [prods] prod;
 
 START : <BOF> prods <EOF>;
+
+
+seq : atom [seq];
+expr : seq ['|' expr];
+rewrite : expr ['{' action '}'];
+alts : rewrite ['|' alts];
+prod : <Ident> (':' | '::=') ['|'] alts ';';
+
+
+actions : action [',' actions];
+
+action : <Ident>
+       | <Int>
+       | action '(' [actions] ')'
+       ;
+
+prods : prod [prods];
+
+START : <BOF> prods <EOF>;

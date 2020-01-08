@@ -79,21 +79,39 @@ def link(lexicals: Dict[str, int], genast: ast.Module, requires: Optional[Iterab
     opt = Optimizer()
 
     @opt.register
+    @macro_exp("[]")
+    def RBNFempty():
+        return subst()
+
+    @opt.register
+    @macro_exp("[a]")
+    def RBNFsingleton(a):
+        return subst(a=a)
+
+    @opt.register
     @macro_exp("a.value")
-    def TheValueOf(a):
+    def RBNFvalueof(a):
         return subst(a=a)
 
     @opt.register
     @macro_exp("lcl")
-    def TheElt(n):
+    def RBNFelt(n):
         assert isinstance(n, ast.Name)
-        assert n.id.startswith("num")
-        n.id = "_slot_{}".format(int(n.id[3:]))
+        assert n.id.startswith("RBNFint")
+        n.id = "_slot_{}".format(int(n.id[7:]))
         return subst(lcl=n)
 
     @opt.register
+    @macro_stmt("""
+_py_local_i = a
+_py_local_t.append(b)
+        """, ret="_py_local_t")
+    def RBNFappend(a, b):
+        return subst(a=a, b=b)
+
+    @opt.register
     @macro_exp("n")
-    def TheTuple(*args):
+    def RBNFtuple(*args):
         return subst(n=ast.Tuple(elts=list(args), ctx=ast.Load()))
 
     @opt.register

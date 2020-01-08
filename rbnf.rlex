@@ -4,3 +4,26 @@ Int \d+
 Ident [a-zA-Z_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*
 Term <.*>
 %ignore WS
+
+%require empty
+%require singleton
+%require cons
+
+
+%require literal
+%require terminal
+%require nonterm
+%require optional
+%require nonseplist
+%require seplist
+%require alias
+%require seq
+%require action
+%require prod
+%require alt
+%require newscope
+
+%require symbol
+%require integer
+%require call
+%require mktuple

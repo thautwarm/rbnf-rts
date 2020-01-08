@@ -1,28 +1,39 @@
-atom : !a=<QuotedStr> -> terminal(DQString(a));
-atom :
-     | <Term>
-     | <Ident>
-     | '(' expr ')'
-     | '[' expr ']'
-     | 'list' '(' expr ')'
-     | 'separated_list' '(' expr ',' expr ')'
-     ;
+atom : !a=<QuotedStr> -> literal(a);
+atom : !a=<Term>      -> terminal(a);
+atom : !a=<Ident>     -> nonterm(a);
+atom : '(' !a=expr ')' -> alt(a);
+atom : '[' !a=expr ']' -> optional(alt(a));
+atom : 'list' '(' !a=expr ')' -> nonseplist(alt(a));
+atom : 'separated_list' '(' !a=expr ',' !b=expr ')' -> seplist(alt(a), alt(b));
+atom : !a=<Ident> '=' !b=atom -> alias(a, b);
 
+seq : !hd=atom -> singleton(hd);
+seq : !hd=atom !tl=seq -> cons(hd, tl);
 
-seq : [seq] atom;
-expr : [expr '|'] seq;
-rewrite : expr ['{' action '}'];
-alts : [alts '|'] rewrite;
-prod : <Ident> (':' | '::=') ['|'] alts ';';
+expr : !hd=seq -> singleton(seq(hd));
+expr : !hd=seq '|' !tl=expr -> cons(seq(hd), tl);
 
+rewrite : !rule=seq -> seq(rule);
+rewrite : !rule=seq '{' !act=action '}' -> action(seq(rule), act);
 
-actions : [actions ','] action;
+alts : !hd=rewrite -> newscope(singleton(hd));
+alts : !hd=rewrite '|' !tl=alts -> newscope(cons(hd, tl));
 
-action : <Ident>
-       | <Int>
-       | action '(' [actions] ')'
-       ;
+prod : !name=<Ident> (':' | '::=') ['|'] !alts=alts ';' -> prod(name, alts);
 
-prods : [prods] prod;
+actions : !hd=action -> singleton(hd);
+actions : !hd=action ',' !tl=actions -> cons(hd, tl);
+
+action : !a=<Ident>         -> symbol(a);
+action : !a=<Int>           -> integer(a);
+action : '(' ')'            -> mktuple();
+action : '(' !a=actions ')' -> mktuple(a);
+action : !f=action !args=args -> call(f, args);
+
+args   : '(' ')' -> empty;
+args   : '(' !args=actions ')' -> args;
+
+prods : !hd=prod -> singleton(hd);
+prods : !hd=prod !tl=prods -> cons(hd, tl);
 
 START : <BOF> prods <EOF>;

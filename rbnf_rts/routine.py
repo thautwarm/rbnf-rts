@@ -1,4 +1,4 @@
-from rbnf_rts.rts import AST
+from rbnf_rts.rts import AST, Cons, _nil
 from rbnf_rts.token import Token
 from json.decoder import py_scanstring
 
@@ -60,5 +60,3 @@ def DQString(x: Token, f=py_scanstring):
         dqstring('"asd"') == "asd"
     """
     return f(x.value, 1)[0]
-
-
