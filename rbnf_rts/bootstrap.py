@@ -66,7 +66,6 @@ class Parser:
         return n
 
     def alias(self, n: Token, s):
-        print('aaa')
         return '!auto{}={}'.format(self.locals[n.value], s)
 
     def seq(self, xs):
