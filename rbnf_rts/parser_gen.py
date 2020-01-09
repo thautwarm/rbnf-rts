@@ -49,8 +49,14 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
             lcl_1 = lr_action_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_action_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_action_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_action_try
+        return lcl_0
 
     def parse_START(prim__state, prim__tokens):
         lcl_0 = 0
@@ -140,7 +146,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                         lcl_6 = mklist()
                         _slot_local__1 = lcl_6
                         lcl_6 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                        lcl_6 = (True, lcl_6)
                         lcl_4 = lcl_6
                     elif (lcl_5 == 4):
                         lcl_6 = parse_actions(prim__state, prim__tokens)
@@ -177,7 +182,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = mklist(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -216,7 +220,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = mklist(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -255,7 +258,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = mklist(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -294,7 +296,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = mklist(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -333,7 +334,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = mklist(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -372,7 +372,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = mklist(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -410,7 +409,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                     lcl_4 = spelling(action_a_1)
                     _slot_local__1 = lcl_4
                     lcl_4 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 2):
@@ -451,7 +449,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = action_f_2(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -481,7 +478,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = action_f_2(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -494,7 +490,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                         lcl_6 = mktuple()
                         _slot_local__1 = lcl_6
                         lcl_6 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                        lcl_6 = (True, lcl_6)
                         lcl_4 = lcl_6
                     elif (lcl_5 == 2):
                         lcl_6 = parse_action(prim__state, prim__tokens)
@@ -522,7 +517,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = action_f_2(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -552,7 +546,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = action_f_2(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -582,7 +575,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = action_f_2(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -612,7 +604,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                                 lcl_8 = action_f_2(action_a_2)
                                 _slot_local__1 = lcl_8
                                 lcl_8 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                                lcl_8 = (True, lcl_8)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -650,7 +641,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                     lcl_4 = ith(action_a_1)
                     _slot_local__1 = lcl_4
                     lcl_4 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 20):
@@ -663,7 +653,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                 lcl_3 = integer(action_a_1)
                 _slot_local__1 = lcl_3
                 lcl_3 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                lcl_3 = (True, lcl_3)
                 lcl_1 = lcl_3
             elif (lcl_2 == 21):
                 _py_local_i = prim__tokens.offset
@@ -675,7 +664,6 @@ def mk_parser(empty, singleton, cons, literal, terminal, nonterm, optional, nons
                 lcl_3 = symbol(action_a_1)
                 _slot_local__1 = lcl_3
                 lcl_3 = lr_loop_action(_slot_local__1, prim__state, prim__tokens)
-                lcl_3 = (True, lcl_3)
                 lcl_1 = lcl_3
             else:
                 lcl_3 = (_off_0, 'action lookahead failed')

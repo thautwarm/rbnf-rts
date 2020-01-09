@@ -68,9 +68,9 @@ def generate(bnf_filename: str,
              lex_filename: str,
              out: str,
              *,
-             inline=False,
-             k: int = 1,
-             traceback: bool = False):
+             k: int = 1, inline=False,
+             traceback: bool = False,
+             stoppable_lr: bool = False):
     """
 bnf_filename: .rbnf filename
 lex_filename: .rlex filename
@@ -79,6 +79,7 @@ inline: flag to indicate if use grammar inline optimisation.
 k: maximum Lookahead count.
 out: storing generated python code
 traceback: whether to support good error messaging in generated code. With overhead.
+stoppable_lr: allow rollbacks during proceeding the left recursion branch
     """
     out_file = Path(out)
     to_remove = []
@@ -114,6 +115,10 @@ traceback: whether to support good error messaging in generated code. With overh
     if not inline:
         print('Using noinline mode')
         cmd.append("--noinline")
+    if stoppable_lr:
+        print('Using stoppable lr(maybe bad error report for left recursions)')
+        cmd.append('--stoppablelr')
+
     check_call(cmd)
 
     cmd = ['rbnf-lex', '-in', bnf_filename, '-out', str(lex_terms_file)]

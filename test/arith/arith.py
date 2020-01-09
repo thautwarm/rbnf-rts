@@ -99,8 +99,14 @@ def mk_parser(arith, unwrap):
             lcl_1 = lr_Add_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_Add_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_Add_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_Add_try
+        return lcl_0
 
     def lr_step_Mul(_slot_0, prim__state, prim__tokens):
         Mul_lhs_0 = _slot_0
@@ -190,8 +196,14 @@ def mk_parser(arith, unwrap):
             lcl_1 = lr_Mul_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_Mul_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_Mul_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_Mul_try
+        return lcl_0
 
     def parse_Add(prim__state, prim__tokens):
         lcl_0 = parse_Mul(prim__state, prim__tokens)
@@ -207,7 +219,6 @@ def mk_parser(arith, unwrap):
             Add_a_0 = _slot_0
             _slot_local__1 = Add_a_0
             lcl_1 = lr_loop_Add(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -300,7 +311,6 @@ def mk_parser(arith, unwrap):
             Mul_a_0 = _slot_0
             _slot_local__1 = Mul_a_0
             lcl_1 = lr_loop_Mul(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 

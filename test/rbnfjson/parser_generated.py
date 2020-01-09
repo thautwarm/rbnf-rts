@@ -72,8 +72,14 @@ def mk_parser(DQString):
             lcl_1 = lr_rbnf__sep__list__0_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_rbnf__sep__list__0_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_rbnf__sep__list__0_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_rbnf__sep__list__0_try
+        return lcl_0
 
     def lr_step_rbnf__sep__list__1(_slot_0, prim__state, prim__tokens):
         lcl_0 = 2
@@ -136,8 +142,14 @@ def mk_parser(DQString):
             lcl_1 = lr_rbnf__sep__list__1_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_rbnf__sep__list__1_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_rbnf__sep__list__1_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_rbnf__sep__list__1_try
+        return lcl_0
 
     def parse_START(prim__state, prim__tokens):
         lcl_0 = 0
@@ -276,7 +288,6 @@ def mk_parser(DQString):
             lcl_1 = [lcl_1]
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_rbnf__sep__list__0(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -295,7 +306,6 @@ def mk_parser(DQString):
             lcl_1 = [lcl_1]
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_rbnf__sep__list__1(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 

@@ -48,8 +48,14 @@ def mk_parser():
             lcl_1 = lr_BasicBlockList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_BasicBlockList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_BasicBlockList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_BasicBlockList_try
+        return lcl_0
 
     def lr_step_CaseList(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_Case(prim__state, prim__tokens)
@@ -88,8 +94,14 @@ def mk_parser():
             lcl_1 = lr_CaseList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_CaseList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_CaseList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_CaseList_try
+        return lcl_0
 
     def lr_step_GEPConstIndexList(_slot_0, prim__state, prim__tokens):
         lcl_0 = 13
@@ -149,8 +161,14 @@ def mk_parser():
             lcl_1 = lr_GEPConstIndexList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_GEPConstIndexList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_GEPConstIndexList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_GEPConstIndexList_try
+        return lcl_0
 
     def lr_step_IncList(_slot_0, prim__state, prim__tokens):
         lcl_0 = 13
@@ -212,8 +230,14 @@ def mk_parser():
             lcl_1 = lr_IncList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_IncList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_IncList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_IncList_try
+        return lcl_0
 
     def lr_step_IndexList(_slot_0, prim__state, prim__tokens):
         lcl_0 = 13
@@ -273,8 +297,14 @@ def mk_parser():
             lcl_1 = lr_IndexList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_IndexList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_IndexList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_IndexList_try
+        return lcl_0
 
     def lr_step_InstructionList(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_Instruction(prim__state, prim__tokens)
@@ -313,8 +343,14 @@ def mk_parser():
             lcl_1 = lr_InstructionList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_InstructionList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_InstructionList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_InstructionList_try
+        return lcl_0
 
     def lr_step_OverflowFlags(_slot_0, prim__state, prim__tokens):
         lcl_0 = prim__tokens.offset
@@ -379,8 +415,14 @@ def mk_parser():
             lcl_1 = lr_OverflowFlags_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_OverflowFlags_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_OverflowFlags_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_OverflowFlags_try
+        return lcl_0
 
     def lr_step_ParamAttrList(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_ParamAttr(prim__state, prim__tokens)
@@ -419,8 +461,14 @@ def mk_parser():
             lcl_1 = lr_ParamAttrList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_ParamAttrList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_ParamAttrList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_ParamAttrList_try
+        return lcl_0
 
     def lr_step_ParamList(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_Param(prim__state, prim__tokens)
@@ -459,8 +507,14 @@ def mk_parser():
             lcl_1 = lr_ParamList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_ParamList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_ParamList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_ParamList_try
+        return lcl_0
 
     def lr_step_SepTypeValueList(_slot_0, prim__state, prim__tokens):
         lcl_0 = 13
@@ -522,8 +576,14 @@ def mk_parser():
             lcl_1 = lr_SepTypeValueList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_SepTypeValueList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_SepTypeValueList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_SepTypeValueList_try
+        return lcl_0
 
     def lr_step_TopLevelEntityList(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_TopLevelEntity(prim__state, prim__tokens)
@@ -562,8 +622,14 @@ def mk_parser():
             lcl_1 = lr_TopLevelEntityList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_TopLevelEntityList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_TopLevelEntityList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_TopLevelEntityList_try
+        return lcl_0
 
     def lr_step_Type(_slot_0, prim__state, prim__tokens):
         lcl_0 = prim__tokens.offset
@@ -1240,8 +1306,14 @@ def mk_parser():
             lcl_1 = lr_Type_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_Type_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_Type_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_Type_try
+        return lcl_0
 
     def lr_step_TypeConstList(_slot_0, prim__state, prim__tokens):
         lcl_0 = 13
@@ -1301,8 +1373,14 @@ def mk_parser():
             lcl_1 = lr_TypeConstList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_TypeConstList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_TypeConstList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_TypeConstList_try
+        return lcl_0
 
     def lr_step_TypeList(_slot_0, prim__state, prim__tokens):
         lcl_0 = 13
@@ -1362,8 +1440,14 @@ def mk_parser():
             lcl_1 = lr_TypeList_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_TypeList_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_TypeList_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_TypeList_try
+        return lcl_0
 
     def parse_AddrSpace(prim__state, prim__tokens):
         lcl_0 = 25
@@ -4677,7 +4761,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('BasicBlockList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_BasicBlockList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -5622,7 +5705,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('CaseList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_CaseList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -10016,7 +10098,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('GEPConstIndexList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_GEPConstIndexList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -13146,7 +13227,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('IncList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_IncList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -13165,7 +13245,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('IndexList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_IndexList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -13999,7 +14078,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('InstructionList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_InstructionList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -15493,7 +15571,6 @@ def mk_parser():
                 lcl_3 = prim__mk__ast('OverflowFlags', lcl_3)
                 _slot_local__1 = lcl_3
                 lcl_3 = lr_loop_OverflowFlags(_slot_local__1, prim__state, prim__tokens)
-                lcl_3 = (True, lcl_3)
                 lcl_1 = lcl_3
             elif (lcl_2 == 43):
                 _py_local_i = prim__tokens.offset
@@ -15505,7 +15582,6 @@ def mk_parser():
                 lcl_3 = prim__mk__ast('OverflowFlags', lcl_3)
                 _slot_local__1 = lcl_3
                 lcl_3 = lr_loop_OverflowFlags(_slot_local__1, prim__state, prim__tokens)
-                lcl_3 = (True, lcl_3)
                 lcl_1 = lcl_3
             else:
                 lcl_3 = (_off_0, 'OverflowFlags lookahead failed')
@@ -16833,7 +16909,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('ParamAttrList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_ParamAttrList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -16870,7 +16945,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('ParamList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_ParamList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -18637,7 +18711,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('SepTypeValueList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_SepTypeValueList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -22533,7 +22606,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('TopLevelEntityList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_TopLevelEntityList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -22562,7 +22634,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 9):
@@ -22580,7 +22651,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__1 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__1, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 26):
@@ -22601,7 +22671,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 18):
@@ -22622,7 +22691,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 21):
@@ -22643,7 +22711,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 20):
@@ -22664,7 +22731,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 19):
@@ -22685,7 +22751,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 17):
@@ -22706,7 +22771,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 23):
@@ -22727,7 +22791,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 22):
@@ -22748,7 +22811,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 27):
@@ -22769,7 +22831,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 185):
@@ -22790,7 +22851,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Type', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Type(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             else:
@@ -22823,7 +22883,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('TypeConstList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_TypeConstList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -23167,7 +23226,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('TypeList', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_TypeList(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 

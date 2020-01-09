@@ -48,8 +48,14 @@ def mk_parser():
             lcl_1 = lr_CaseExps_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_CaseExps_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_CaseExps_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_CaseExps_try
+        return lcl_0
 
     def lr_step_CommaCases(_slot_0, prim__state, prim__tokens):
         lcl_0 = 5
@@ -111,8 +117,14 @@ def mk_parser():
             lcl_1 = lr_CommaCases_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_CommaCases_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_CommaCases_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_CommaCases_try
+        return lcl_0
 
     def lr_step_CommaExps(_slot_0, prim__state, prim__tokens):
         lcl_0 = 5
@@ -174,8 +186,14 @@ def mk_parser():
             lcl_1 = lr_CommaExps_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_CommaExps_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_CommaExps_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_CommaExps_try
+        return lcl_0
 
     def lr_step_DotId(_slot_0, prim__state, prim__tokens):
         lcl_0 = 19
@@ -237,8 +255,14 @@ def mk_parser():
             lcl_1 = lr_DotId_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_DotId_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_DotId_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_DotId_try
+        return lcl_0
 
     def lr_step_Exp(_slot_0, prim__state, prim__tokens):
         lcl_0 = 3
@@ -369,8 +393,14 @@ def mk_parser():
             lcl_1 = lr_Exp_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_Exp_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_Exp_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_Exp_try
+        return lcl_0
 
     def lr_step_Ids(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_Id(prim__state, prim__tokens)
@@ -409,8 +439,14 @@ def mk_parser():
             lcl_1 = lr_Ids_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_Ids_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_Ids_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_Ids_try
+        return lcl_0
 
     def lr_step_Stmts(_slot_0, prim__state, prim__tokens):
         lcl_0 = parse_Stmt(prim__state, prim__tokens)
@@ -449,8 +485,14 @@ def mk_parser():
             lcl_1 = lr_Stmts_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
-        prim__tokens.offset = _off_0
-        return lr_Stmts_reduce
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_Stmts_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_Stmts_try
+        return lcl_0
 
     def parse_Case(prim__state, prim__tokens):
         lcl_0 = prim__tokens.offset
@@ -662,7 +704,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('CaseExps', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_CaseExps(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -681,7 +722,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('CommaCases', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_CommaCases(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -700,7 +740,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('CommaExps', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_CommaExps(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -719,7 +758,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('DotId', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_DotId(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -748,7 +786,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 8):
@@ -769,7 +806,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 22):
@@ -790,7 +826,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 6):
@@ -811,7 +846,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 12):
@@ -832,7 +866,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 16):
@@ -853,7 +886,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 20):
@@ -874,7 +906,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 3):
@@ -924,7 +955,6 @@ def mk_parser():
                         lcl_5 = prim__mk__ast('Exp', lcl_5)
                         _slot_local__2 = lcl_5
                         lcl_5 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                        lcl_5 = (True, lcl_5)
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
@@ -946,7 +976,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 28):
@@ -967,7 +996,6 @@ def mk_parser():
                     lcl_4 = prim__mk__ast('Exp', lcl_4)
                     _slot_local__2 = lcl_4
                     lcl_4 = lr_loop_Exp(_slot_local__2, prim__state, prim__tokens)
-                    lcl_4 = (True, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             else:
@@ -1028,7 +1056,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('Ids', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_Ids(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -3235,7 +3262,6 @@ def mk_parser():
             lcl_1 = prim__mk__ast('Stmts', lcl_1)
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_Stmts(_slot_local__1, prim__state, prim__tokens)
-            lcl_1 = (True, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
