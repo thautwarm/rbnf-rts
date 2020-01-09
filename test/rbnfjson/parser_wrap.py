@@ -1,4 +1,4 @@
-from rbnfjson.parser_generated import *
+from parser_generated import *
 from rbnf_rts.rts import Tokens, State, AST
 from rbnf_rts import routine
 

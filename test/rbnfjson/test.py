@@ -1,4 +1,4 @@
-from rbnfjson.parser_wrap import parse
+from parser_wrap import parse
 
 data = parse('''
         {
