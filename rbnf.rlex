@@ -24,6 +24,7 @@ Term <.*?>
 %require newscope
 %require ith
 %require spelling
+%require location
 
 %require symbol
 %require integer

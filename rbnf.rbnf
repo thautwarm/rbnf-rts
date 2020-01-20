@@ -33,6 +33,7 @@ action : !f=action !args=args -> call(f, args);
 
 action : '$' !a=action            -> ith(a);
 action : '*' !a=action            -> spelling(a);
+action : '@' !a=action            -> location(a);
 action : '[' ']'                  -> mklist();
 action : '[' !a=actions ']'       -> mklist(a);
 

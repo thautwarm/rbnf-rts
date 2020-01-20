@@ -120,3 +120,6 @@ class Parser:
 
     def spelling(self, s):
         return 'RBNFvalueof({})'.format(s)
+
+    def location(self, s):
+        return 'RBNFlocationof({})'.format(s)

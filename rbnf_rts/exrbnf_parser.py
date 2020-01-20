@@ -30,7 +30,8 @@ def parse(text: str, filename: str = "unknown"):
                        ith=p.ith,
                        spelling=p.spelling,
                        mklist=p.mklist,
-                       tupletail=p.tupletail)
+                       tupletail=p.tupletail,
+                       location=p.location)
     tokens = list(run_lexer(filename, text))
     res = _parse(State(), Tokens(tokens))
     if res[0]:

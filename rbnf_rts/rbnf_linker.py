@@ -92,6 +92,14 @@ def link(lexicals: Dict[str, int],
         return subst(a=a)
 
     @opt.register
+    @macro_exp("(a.lineno, a.colno, a.filename)")
+    def RBNFlocationof(n):
+        assert isinstance(n, ast.Name)
+        assert n.id.startswith("RBNFint")
+        n.id = "_slot_{}".format(int(n.id[7:]))
+        return subst(a=n)
+
+    @opt.register
     @macro_exp("lcl")
     def RBNFelt(n):
         assert isinstance(n, ast.Name)
