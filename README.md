@@ -3,7 +3,14 @@ Runtime support for generated parsers of RBNF.hs
 
 **P.S**:
 
-`rbnf-rts` is the new fastest Python parser generator by 2020, according to a benchmark given by [benchmark-json](https://github.com/thautwarm/rbnf-rts/blob/master/test/benchmark-json.ipynb).
+~~`rbnf-rts` is the new fastest Python parser generator by 2020, according to a benchmark given by [benchmark-json](https://github.com/thautwarm/rbnf-rts/blob/master/test/benchmark-json.ipynb).~~
+
+This package has come to the end of its lifetime.
+
+[frontend-for-free](https://github.com/thautwarm/frontend-for-free) is now the state of the art, and also inherits all features of RBNF with simpler and more expressive BNF notations.
+
+frontend-for-free uses the same underlying compiler as RBNF, but provided with better user interface. 
+
 
 ![Bench](https://raw.githubusercontent.com/thautwarm/static-resources/master/rbnf/fast2020-nb.PNG)
 
